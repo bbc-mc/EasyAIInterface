@@ -6,7 +6,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.mod_EasyAIInterface;
 
 public class EAI_Manager {
-    public EntityLiving targetEntity;
+    
     public int slot_start;
     
     public EasyAIInterface mod;
@@ -18,7 +18,6 @@ public class EAI_Manager {
         this.memory = new EAI_Memory();
         
         this.slot_start = 0;
-        this.targetEntity = null;
     }
     
     /**
@@ -48,15 +47,16 @@ public class EAI_Manager {
         
         //
         mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] execute");
-        int ret = ((IEAIItem) current.getItem()).execute(this, entity, inventory, slotnum, maxcol);
+        int ret = ((EAI_ItemBase) current.getItem()).execute(this, entity, inventory, slotnum, maxcol);
         
         // 終了前処理
         if (ret == -1) {
-            mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] abort. returned : " + ret);
+            mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] abort. returned : " + ret + " "
+                    + ((EAI_ItemBase) current.getItem()).getItemName());
             return -1;// 実行失敗
         } else if (ret > inventory.getSizeInventory()) {
             mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] return to 0. reach right end.");
-            return this.slot_start; // or -slotnum?
+            return this.slot_start; // manager が認識している start チップへ戻る
         } else {
             return ret;
         }

@@ -26,7 +26,7 @@ public class EAI_Items {
     
     private Item Item_TASK_eatFood;
     private Item Item_TASK_attackOnCollide;
-    private Item Iten_TASK_move2target;
+    private Item Item_TASK_move2target;
     
     public EAI_Items(EasyAIInterface mod) {
         this.mod = mod;
@@ -44,6 +44,7 @@ public class EAI_Items {
         // Item:Task
         Item_TASK_eatFood = new EAI_Item_TASK_eatFood(mod.mod_EAI.idItem_task_eat_food - 256);
         Item_TASK_attackOnCollide = new EAI_Item_TASK_attackOnCollide(mod.mod_EAI.idItem_task_attackOnCollide - 256);
+        Item_TASK_move2target = new EAI_Item_TASK_move2target(mod.mod_EAI.idItem_task_move2target - 256);
         
         // Recipe (dummy recipe)
         ModLoader.addRecipe(new ItemStack(Item_CTRL_IF_EnemyNearby, 1), new Object[] { " R ", " pR", " p ", Character.valueOf('p'), Block.planks,
@@ -64,6 +65,8 @@ public class EAI_Items {
                 new Object[] { " b ", " hb", " b ", Character.valueOf('b'), Item.bread, Character.valueOf('h'), Item.hoeWood });
         ModLoader.addRecipe(new ItemStack(Item_TASK_attackOnCollide, 1), new Object[] { " a ", " ha", " a ", Character.valueOf('a'), Item.swordWood,
                 Character.valueOf('h'), Item.hoeWood });
+        ModLoader.addRecipe(new ItemStack(Item_TASK_move2target, 1), new Object[] { " a ", " ha", " a ", Character.valueOf('a'), Item.helmetLeather,
+                Character.valueOf('h'), Item.hoeWood });
         
         // add item to list
         this.addEAIItem("eai.ctrl.if.enemynearby", Item_CTRL_IF_EnemyNearby);
@@ -74,6 +77,7 @@ public class EAI_Items {
         this.addEAIItem("eai.search.mob", Item_SEARCH_mob);
         this.addEAIItem("eai.task.eatfood", Item_TASK_eatFood);
         this.addEAIItem("eai.task.attackoncollide", Item_TASK_attackOnCollide);
+        this.addEAIItem("eai.task.move2target", Item_TASK_move2target);
     }
     
     public boolean isEAIItem(ItemStack itemstack) {

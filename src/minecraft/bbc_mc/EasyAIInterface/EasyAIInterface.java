@@ -13,9 +13,7 @@ import net.minecraft.src.mod_EasyAIInterface;
 public class EasyAIInterface {
     public mod_EasyAIInterface mod_EAI;
     public EAI_Items items;
-    // public EAI_Entities entities;
     public EAI_Localize localize;
-    // public EAI_KeyEvent keyEvent;
     
     public boolean isLoaded_MOD_Youjo = false;
     public boolean isLoaded_MOD_LittleMaidMob = false;
@@ -34,10 +32,8 @@ public class EasyAIInterface {
         // register Items and recipe
         items = new EAI_Items(this);
         
-        // register Entities
         // add Localization
         localize = new EAI_Localize(this);
-        // register keyevent
     }
     
     public boolean onTickInGame(float partialTick, Minecraft mc) {
@@ -71,7 +67,6 @@ public class EasyAIInterface {
         return new EAI_Manager(this);
     }
     
-    // =====================================================
     public void debugPrint(String str) {
         if (mod_EAI.debug_mode) {
             System.out.println(str);

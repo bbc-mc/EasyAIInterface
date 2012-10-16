@@ -15,39 +15,68 @@ public abstract class EAI_ItemBase extends Item {
         UPPER_LEFT, //
         UP, //
         UPPER_RIGHT;
-        public static int getNextSlot(int slotnum, int maxcol, Direction dir) {
+        public static int getNextSlot(IInventory inventory, int slotnum, int maxcol, Direction dir) {
             int ret = 0;
             switch (dir) {
                 case RIGHT:
                     ret = +1;
+                    if ((slotnum - 1) % maxcol == 0) {
+                        return -1;
+                    }
                     break;
                 case DOWN_RIGHT:
                     ret = +1 + maxcol;
+                    if ((slotnum - 1) % maxcol == 0) {
+                        return -1;
+                    }
+                    if (inventory.getSizeInventory() - slotnum < maxcol) {
+                        return -1;
+                    }
                     break;
                 case DOWN:
                     ret = +maxcol;
+                    if (inventory.getSizeInventory() - slotnum < maxcol) {
+                        return -1;
+                    }
                     break;
                 case DOWN_LEFT:
                     ret = -1 + maxcol;
+                    if (inventory.getSizeInventory() - slotnum < maxcol) {
+                        return -1;
+                    }
                     break;
                 case LEFT:
                     ret = -1;
+                    if (slotnum % maxcol == 0) {
+                        return -1;
+                    }
                     break;
                 case UPPER_LEFT:
                     ret = -1 - maxcol;
+                    if (slotnum % maxcol == 0) {
+                        return -1;
+                    }
+                    if (slotnum < maxcol) {
+                        return -1;
+                    }
                     break;
                 case UP:
                     ret = -maxcol;
+                    if (slotnum < maxcol) {
+                        return -1;
+                    }
                     break;
                 case UPPER_RIGHT:
                     ret = +1 - maxcol;
+                    if ((slotnum - 1) % maxcol == 0) {
+                        return -1;
+                    }
+                    if (slotnum < maxcol) {
+                        return -1;
+                    }
                     break;
             }
-            if ((slotnum % maxcol) == ((slotnum + ret) % maxcol)) {
-                return slotnum + ret;
-            } else {
-                return -1; // Inventory の壁面に到達。
-            }
+            return slotnum + ret;
         }
     }
     
@@ -59,17 +88,17 @@ public abstract class EAI_ItemBase extends Item {
     }
     
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
-        this.setReturnValue(slotnum, maxcol);
+        this.setReturnValue(inventory, slotnum, maxcol);
         // write your code
         
         // return your answer
         return this.returnTrue();
     }
     
-    protected void setReturnValue(int slotnum, int maxcol) {
+    protected void setReturnValue(IInventory inventory, int slotnum, int maxcol) {
         
-        this.value_true = Direction.getNextSlot(slotnum, maxcol, getDirectionTrueFromDamage(slotnum, maxcol));
-        this.value_false = Direction.getNextSlot(slotnum, maxcol, getDirectionFalseFromDamage(slotnum, maxcol));
+        this.value_true = Direction.getNextSlot(inventory, slotnum, maxcol, getDirectionTrueFromDamage(slotnum, maxcol));
+        this.value_false = Direction.getNextSlot(inventory, slotnum, maxcol, getDirectionFalseFromDamage(slotnum, maxcol));
     }
     
     protected int returnTrue() {

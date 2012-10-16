@@ -31,7 +31,7 @@ public class EAI_Item_SEARCH_enemy extends EAI_ItemBase {
         while (iterator.hasNext()) {
             Object obj = iterator.next();
             if (obj instanceof EntityMob && ((EntityMob) obj).getAttackTarget().equals(entity)) {
-                manager.targetEntity = (EntityLiving) obj;
+                manager.memory.target.setTarget((EntityMob) obj);
                 return this.returnTrue();
             }
         }

@@ -25,7 +25,6 @@ public class EAI_Item_CTRL_IF_HPLow extends EAI_ItemBase {
             mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_CTRL_IF_HPLow] HP Low == true");
             return this.returnTrue();
         }
-        
         return this.returnFalse();
     }
     
