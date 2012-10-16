@@ -13,6 +13,8 @@ MOD: mod_EasyAIInterface
 
 ゲーム [Minectaft](http://www.mojang.com/) に機能追加を行う MOD です。
 
+現在開発中のため、以下の内容には開発中の情報が含まれ、不正確な可能性があります。
+
 ## 機能
 
  - AI を簡単に構築する仕組みを追加する
@@ -24,7 +26,7 @@ MOD: mod_EasyAIInterface
 
   + MC 1.2.5
   + ModLoader
-  + YoujoMod 1.2.1? <http://>
+  + YoujoMod 1.2.1 <http://forum.minecraftuser.jp/viewtopic.php?f=13&t=2816#p20049>
 
 ## 使用 ID
 
@@ -48,12 +50,12 @@ MOD: mod_EasyAIInterface
 
   - 拡張性の高い AI プラットフォーム である YoujoMOD を公開されている作者様に感謝します
 
-## 公開先
+## 公開先 (現在開発中のため、まだ公開されていません。
 
   - Minecraft 日本非公式ユーザーフォーラム
     - <http://>
   - github (ソースコード)
-    - <https://github.com/bbc-mc/LockOnMod>
+    - <https://github.com/bbc-mc/EasyAIInterface>
 
 ## 更新
 
