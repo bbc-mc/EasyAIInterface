@@ -16,9 +16,11 @@ public class EAI_Items {
     private EasyAIInterface mod;
     
     // Instance of Items
+    private Item Item_SYS_return;
+    private Item Item_SYS_start;
+    
     private Item Item_CTRL_IF_EnemyNearby;
     private Item Item_CTRL_IF_HPLow;
-    private Item Item_CTRL_continue;
     
     private Item Item_SEARCH_master;
     private Item Item_SEARCH_enemy;
@@ -27,6 +29,7 @@ public class EAI_Items {
     private Item Item_TASK_eatFood;
     private Item Item_TASK_attackOnCollide;
     private Item Item_TASK_move2target;
+    private Item Item_TASK_playSound;
     
     public EAI_Items(EasyAIInterface mod) {
         this.mod = mod;
@@ -34,7 +37,6 @@ public class EAI_Items {
         // Item:Control
         Item_CTRL_IF_EnemyNearby = new EAI_Item_CTRL_IF_EnemyNearby(mod.mod_EAI.idItem_ctrl_if_enemy_nearby - 256);
         Item_CTRL_IF_HPLow = new EAI_Item_CTRL_IF_HPLow(mod.mod_EAI.idItem_ctrl_if_hp_low - 256);
-        Item_CTRL_continue = new EAI_Item_CTRL_continue(mod.mod_EAI.idItem_ctrl_coninue - 256);
         
         // Item:Search
         Item_SEARCH_master = new EAI_Item_SEARCH_master(mod.mod_EAI.idItem_search_parent - 256);
@@ -45,14 +47,17 @@ public class EAI_Items {
         Item_TASK_eatFood = new EAI_Item_TASK_eatFood(mod.mod_EAI.idItem_task_eat_food - 256);
         Item_TASK_attackOnCollide = new EAI_Item_TASK_attackOnCollide(mod.mod_EAI.idItem_task_attackOnCollide - 256);
         Item_TASK_move2target = new EAI_Item_TASK_move2target(mod.mod_EAI.idItem_task_move2target - 256);
+        Item_TASK_playSound = new EAI_Item_TASK_playSound(mod.mod_EAI.idItem_task_playSound - 256);
+        
+        // Item:System
+        Item_SYS_return = new EAI_Item_SYS_return(mod.mod_EAI.idItem_sys_return - 256);
+        Item_SYS_start = new EAI_Item_SYS_start(mod.mod_EAI.idItem_sys_start - 256);
         
         // Recipe (dummy recipe)
         ModLoader.addRecipe(new ItemStack(Item_CTRL_IF_EnemyNearby, 1), new Object[] { " R ", " pR", " p ", Character.valueOf('p'), Block.planks,
                 Character.valueOf('R'), Item.redstone });
         ModLoader.addRecipe(new ItemStack(Item_CTRL_IF_HPLow, 1),
                 new Object[] { " R ", " bR", " b ", Character.valueOf('b'), Item.bread, Character.valueOf('R'), Item.redstone });
-        ModLoader.addRecipe(new ItemStack(Item_CTRL_continue, 1),
-                new Object[] { " R ", " sR", " s ", Character.valueOf('s'), Item.sugar, Character.valueOf('R'), Item.redstone });
         
         ModLoader.addRecipe(new ItemStack(Item_SEARCH_master, 1),
                 new Object[] { " R ", " sR", " s ", Character.valueOf('s'), Item.bread, Character.valueOf('S'), Item.spiderEye });
@@ -68,16 +73,22 @@ public class EAI_Items {
         ModLoader.addRecipe(new ItemStack(Item_TASK_move2target, 1), new Object[] { " a ", " ha", " a ", Character.valueOf('a'), Item.helmetLeather,
                 Character.valueOf('h'), Item.hoeWood });
         
+        ModLoader.addRecipe(new ItemStack(Item_SYS_return, 1),
+                new Object[] { " R ", " sR", " s ", Character.valueOf('s'), Item.sugar, Character.valueOf('R'), Item.swordStone });
+        ModLoader.addRecipe(new ItemStack(Item_SYS_start, 1),
+                new Object[] { " R ", " sR", " s ", Character.valueOf('s'), Item.bread, Character.valueOf('R'), Item.swordStone });
+        
         // add item to list
         this.addEAIItem("eai.ctrl.if.enemynearby", Item_CTRL_IF_EnemyNearby);
         this.addEAIItem("eai.ctrl.if.hplow", Item_CTRL_IF_HPLow);
-        this.addEAIItem("eai.ctrl.continue", Item_CTRL_continue);
         this.addEAIItem("eai.search.master", Item_SEARCH_master);
         this.addEAIItem("eai.search.enemy", Item_SEARCH_enemy);
         this.addEAIItem("eai.search.mob", Item_SEARCH_mob);
         this.addEAIItem("eai.task.eatfood", Item_TASK_eatFood);
         this.addEAIItem("eai.task.attackoncollide", Item_TASK_attackOnCollide);
         this.addEAIItem("eai.task.move2target", Item_TASK_move2target);
+        this.addEAIItem("eai.sys.return", Item_SYS_return);
+        this.addEAIItem("eai.sys.start", Item_SYS_start);
     }
     
     public boolean isEAIItem(ItemStack itemstack) {

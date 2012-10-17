@@ -4,6 +4,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.Vec3D;
+import net.minecraft.src.mod_EasyAIInterface;
 
 /**
  * Taskチップ : ターゲットへの移動
@@ -14,13 +15,16 @@ public class EAI_Item_TASK_move2target extends EAI_ItemBase {
     
     protected EAI_Item_TASK_move2target(int par1) {
         super(par1);
-        this.setHasSubtypes(true);
         this.setItemName("EAI_TASK_move2target");
-        this.setMaxStackSize(1);
+        this.setItemTypeBranching(false);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
+        super.execute(manager, entity, inventory, slotnum, maxcol);
+        
+        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_TASK_move2target] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
+        
         if (!manager.memory.hasTarget()) {
             // no target.
             return this.returnFalse();

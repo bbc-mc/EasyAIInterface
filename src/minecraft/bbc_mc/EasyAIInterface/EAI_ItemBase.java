@@ -1,10 +1,14 @@
 package bbc_mc.EasyAIInterface;
 
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.Item;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.MathHelper;
+import net.minecraft.src.World;
 
-public abstract class EAI_ItemBase extends Item {
+public class EAI_ItemBase extends Item {
     
     public enum Direction {
         RIGHT, //
@@ -20,7 +24,7 @@ public abstract class EAI_ItemBase extends Item {
             switch (dir) {
                 case RIGHT:
                     ret = +1;
-                    if ((slotnum - 1) % maxcol == 0) {
+                    if ((slotnum + 1) % maxcol == 0) {
                         return -1;
                     }
                     break;
@@ -82,9 +86,28 @@ public abstract class EAI_ItemBase extends Item {
     
     protected int value_true;
     protected int value_false;
+    protected boolean isBranchingItem;
     
     protected EAI_ItemBase(int par1) {
         super(par1);
+        this.setHasSubtypes(true);
+        this.setMaxStackSize(1);
+        this.setMaxDamage(64);
+        this.isBranchingItem = false;
+    }
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+        int currentDamage = par1ItemStack.getItemDamage();
+        par1ItemStack.setItemDamage((currentDamage + 1) % par1ItemStack.getMaxDamage());
+        System.out.println(par1ItemStack.getItemDamage());
+        return par1ItemStack;
+    }
+    
+    @Override
+    public int getIconFromDamage(int par1) {
+        int i = MathHelper.clamp_int(par1, 0, 63);
+        return iconIndex + (i % 8) * 16 + i / 8;
     }
     
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
@@ -97,8 +120,8 @@ public abstract class EAI_ItemBase extends Item {
     
     protected void setReturnValue(IInventory inventory, int slotnum, int maxcol) {
         
-        this.value_true = Direction.getNextSlot(inventory, slotnum, maxcol, getDirectionTrueFromDamage(slotnum, maxcol));
-        this.value_false = Direction.getNextSlot(inventory, slotnum, maxcol, getDirectionFalseFromDamage(slotnum, maxcol));
+        this.value_true = Direction.getNextSlot(inventory, slotnum, maxcol, getDirectionTrueFromDamage(inventory, slotnum));
+        this.value_false = Direction.getNextSlot(inventory, slotnum, maxcol, getDirectionFalseFromDamage(inventory, slotnum));
     }
     
     protected int returnTrue() {
@@ -106,23 +129,29 @@ public abstract class EAI_ItemBase extends Item {
     }
     
     protected int returnFalse() {
-        return this.value_false;
+        if (this.isBranchingItem) {
+            return this.value_false;
+        } else {
+            return this.value_true;
+        }
     }
     
     //
     // treat ItemDamage => Direction convert
     //
-    /**
-     * TODO: this is dummy implementation. return appropriate value from ItemDamge.
-     */
-    protected Direction getDirectionTrueFromDamage(int slotnum, int maxcol) {
-        return Direction.DOWN;
+    // 下 3bit 000111
+    protected Direction getDirectionTrueFromDamage(IInventory inventory, int slotnum) {
+        int currentDamage = inventory.getStackInSlot(slotnum).getItemDamage() % 8;
+        return Direction.values()[currentDamage];
     }
     
-    /**
-     * TODO: this is dummy implementation. return appropriate value from ItemDamge.
-     */
-    protected Direction getDirectionFalseFromDamage(int slotnum, int maxcol) {
-        return Direction.RIGHT;
+    // 上 3 bit 111000
+    protected Direction getDirectionFalseFromDamage(IInventory inventory, int slotnum) {
+        int currentDamage = inventory.getStackInSlot(slotnum).getItemDamage() / 8;
+        return Direction.values()[currentDamage];
+    }
+    
+    protected void setItemTypeBranching(boolean flg) {
+        this.isBranchingItem = flg;
     }
 }

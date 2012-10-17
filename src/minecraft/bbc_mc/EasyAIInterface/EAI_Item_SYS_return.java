@@ -4,18 +4,18 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.mod_EasyAIInterface;
 
-public class EAI_Item_CTRL_continue extends EAI_ItemBase {
+public class EAI_Item_SYS_return extends EAI_ItemBase {
     
-    protected EAI_Item_CTRL_continue(int par1) {
+    protected EAI_Item_SYS_return(int par1) {
         super(par1);
-        this.setHasSubtypes(true);
-        this.setItemName("EAI_CTRL_continue");
-        this.setMaxStackSize(1);
+        this.setItemName("EAI_SYS_return");
+        this.setItemTypeBranching(false);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
-        mod_EasyAIInterface.getInstance().mod.debugPrint("[" + this.getItemName() + "] continue ");
+        mod_EasyAIInterface.getInstance().mod.debugPrint("[" + this.getItemName() + "] return " + slotnum);
+        super.execute(manager, entity, inventory, slotnum, maxcol);
         return manager.slot_start;
     }
     

@@ -10,16 +10,15 @@ public class EAI_Item_SEARCH_master extends EAI_ItemBase {
     
     protected EAI_Item_SEARCH_master(int par1) {
         super(par1);
-        this.setHasSubtypes(true);
         this.setItemName("EAI_SEARCH_master");
-        this.setMaxStackSize(1);
+        this.setItemTypeBranching(true);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         super.execute(manager, entity, inventory, slotnum, maxcol);
         
-        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_SEARCH_master] " + this.returnTrue() + " : " + this.returnFalse() + "[" + entity);
+        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_SEARCH_master] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
         
         if (entity instanceof EntityTameable) {
             manager.memory.setTarget(((EntityTameable) entity).getOwner());

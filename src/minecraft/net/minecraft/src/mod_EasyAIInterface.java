@@ -37,8 +37,19 @@ public class mod_EasyAIInterface extends BaseMod {
     public static int idItem_task_eat_food = 29201;
     @MLProp
     public static int idItem_task_attackOnCollide = 29202;
+    @MLProp
+    public static int idItem_task_move2target = 29203;
+    @MLProp
+    public static int idItem_task_playSound = 29204;
+    
+    // Item:System
+    @MLProp
+    public static int idItem_sys_return = 29301;
+    @MLProp
+    public static int idItem_sys_start = 29302;
     
     public final EasyAIInterface mod;
+    
     private static mod_EasyAIInterface instance;
     
     public mod_EasyAIInterface() {

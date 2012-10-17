@@ -9,6 +9,12 @@ public class EAI_Manager {
     
     public int slot_start;
     
+    private EntityLiving parentEntity;
+    private IInventory inventory;
+    private int currentSlot;
+    private int maxcol;
+    private boolean flg_init;
+    
     public EasyAIInterface mod;
     public EAI_Memory memory;
     private int count = 0;
@@ -18,47 +24,79 @@ public class EAI_Manager {
         this.memory = new EAI_Memory();
         
         this.slot_start = 0;
+        
+        this.flg_init = false;
     }
     
-    /**
-     * 
-     * 戻り値: slotnum への変更値を返す。実行失敗の場合、-1 を返す
-     * 
-     * @param entity
-     * @param inventory
-     * @param slotnum
-     * @return new_slotnum
-     */
-    public int execute(EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
+    public void init(EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
+        this.parentEntity = entity;
+        this.inventory = inventory;
+        this.currentSlot = slotnum;
+        this.maxcol = maxcol;
+        this.flg_init = true;
+    }
+    
+    public int getCurrentSlot() {
+        return this.currentSlot;
+    }
+    
+    public void setCurrentSlot(int slot) {
+        if (0 <= slot && slot < this.inventory.getSizeInventory()) {
+            this.currentSlot = slot;
+        }
+    }
+    
+    public boolean execute() {
+        if (!this.flg_init) {
+            this.mod.debugPrint("[EAI_Manager] Not yet Initialized");
+            return false; // abort
+        }
         if (count > 0) {
             count--;
-            return -1;
+            return true; // continue
         } else {
             count = this.mod.mod_EAI.loopWait;
         }
+        
+        if (this.currentSlot < 0 || this.inventory.getSizeInventory() < this.currentSlot) {
+            this.mod.debugPrint("[EAI_Manager] slotnum is out of range. abort. : " + this.currentSlot);
+            return false; // abort
+        }
+        
         //
-        ItemStack current = inventory.getStackInSlot(slotnum);
+        ItemStack currentSlotItem = inventory.getStackInSlot(this.currentSlot);
         
         // EAI_Item かどうかを確認。
-        if (current == null || !this.mod.items.isEAIItem(current)) {
-            mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] Item is not EAI_ITEM " + current);
-            return -1; // 実行失敗
+        if (currentSlotItem == null || !this.mod.items.isEAIItem(currentSlotItem)) {
+            this.mod.debugPrint("[EAI_Manager] Item is not EAI_ITEM " + currentSlotItem);
+            return false; // abort
         }
         
         //
         mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] execute");
-        int ret = ((EAI_ItemBase) current.getItem()).execute(this, entity, inventory, slotnum, maxcol);
+        int ret = ((EAI_ItemBase) currentSlotItem.getItem()).execute(this, this.parentEntity, this.inventory, this.currentSlot, this.maxcol);
         
         // 終了前処理
         if (ret == -1) {
-            mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] abort. returned : " + ret + " "
-                    + ((EAI_ItemBase) current.getItem()).getItemName());
-            return -1;// 実行失敗
-        } else if (ret > inventory.getSizeInventory()) {
-            mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] return to 0. reach right end.");
-            return this.slot_start; // manager が認識している start チップへ戻る
+            this.mod.debugPrint("[EAI_Manager] abort. returned : " + ret + " " + ((EAI_ItemBase) currentSlotItem.getItem()).getItemName());
+            return false;// abort
+        } else if (ret > this.inventory.getSizeInventory()) {
+            this.mod.debugPrint("[EAI_Manager] return to 0. reach right end.");
+            this.currentSlot = this.slot_start;
+            return true; // manager が認識している start チップへ戻る
         } else {
-            return ret;
+            this.currentSlot = ret;
+            return true;
         }
+    }
+    
+    public int findStartTip(IInventory inventory) {
+        for (int i = 0; i < inventory.getSizeInventory(); i++) {
+            ItemStack stack = inventory.getStackInSlot(i);
+            if (stack != null && this.mod.items.isEAIItem(stack) && (stack.getItem() instanceof EAI_Item_SYS_start)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

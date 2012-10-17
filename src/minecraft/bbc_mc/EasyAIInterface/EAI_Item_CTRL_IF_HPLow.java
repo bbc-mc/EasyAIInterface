@@ -12,9 +12,8 @@ public class EAI_Item_CTRL_IF_HPLow extends EAI_ItemBase {
     protected EAI_Item_CTRL_IF_HPLow(int par1) {
         // automatically inserted
         super(par1);
-        this.setHasSubtypes(true);
         this.setItemName("EAI_CTRL_IF_HPLow");
-        this.setMaxStackSize(1);
+        this.setItemTypeBranching(true);
     }
     
     @Override

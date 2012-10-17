@@ -10,6 +10,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import net.minecraft.src.mod_EasyAIInterface;
 import bbc_mc.util.SorterDistanceToEntity;
 
 public class EAI_Item_CTRL_IF_EnemyNearby extends EAI_ItemBase {
@@ -19,14 +20,16 @@ public class EAI_Item_CTRL_IF_EnemyNearby extends EAI_ItemBase {
     
     protected EAI_Item_CTRL_IF_EnemyNearby(int par1) {
         super(par1);
-        this.setHasSubtypes(true);
         this.setItemName("EAI_CTRL_IfEnemyNearby");
-        this.setMaxStackSize(1);
+        this.setItemTypeBranching(true);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         super.execute(manager, entity, inventory, slotnum, maxcol);
+        
+        mod_EasyAIInterface.getInstance().mod
+                .debugPrint("[EAI_CTRL_IfEnemyNearby] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
         
         double range = 20D;
         List list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(range, 4D, range));

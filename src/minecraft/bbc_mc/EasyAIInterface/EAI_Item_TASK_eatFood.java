@@ -11,13 +11,15 @@ public class EAI_Item_TASK_eatFood extends EAI_ItemBase {
     
     protected EAI_Item_TASK_eatFood(int par1) {
         super(par1);
-        this.setHasSubtypes(true);
         this.setItemName("EAI_TASK_eatFood");
-        this.setMaxStackSize(1);
+        this.setItemTypeBranching(false);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
+        super.execute(manager, entity, inventory, slotnum, maxcol);
+        
+        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_TASK_eatFood] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
         // 食べ物を持ってたら食べる。次へ進む
         //
         // ロジックをなるだけ壊さないように、検索は後ろから
@@ -32,7 +34,7 @@ public class EAI_Item_TASK_eatFood extends EAI_ItemBase {
                 
                 entity.setEating(true);
                 entity.setEntityHealth(entity.getHealth() + 1); // HP を 1 回復する
-                mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_TASK_eatFood] Eat Food " + stack);
+                mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_TASK_eatFood] Eat Food " + stack + " " + slotnum);
                 
                 return this.returnTrue();
             }

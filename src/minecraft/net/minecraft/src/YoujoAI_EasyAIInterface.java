@@ -1,14 +1,12 @@
 package net.minecraft.src;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.List;
 
 import bbc_mc.EasyAIInterface.EAI_Manager;
 
 public class YoujoAI_EasyAIInterface implements IYoujoAI {
     
-    private int slotnum;
     private mod_EasyAIInterface mod_EAI;
     private EAI_Manager manager;
     private EntityYoujo youjo;
@@ -35,19 +33,15 @@ public class YoujoAI_EasyAIInterface implements IYoujoAI {
             entity.setYoujoAI(entity.defaultAI);
         }
         
-        slotnum = 0;
+        this.manager.init(entity, entity.inventory, this.manager.findStartTip(entity.inventory), 9);
     }
     
     @Override
     public void excute(EntityYoujo entity) {
-        if (slotnum < 0 || entity.inventory.getSizeInventory() < slotnum) {
-            entity.setYoujoAI(entity.defaultAI);
+        if (this.manager.execute()) {
+            debugPrint("AI: slotnum update : " + this.manager.getCurrentSlot());
         } else {
-            int ret = this.manager.execute(entity, entity.inventory, slotnum, 9);
-            if (ret >= 0) {
-                slotnum = ret;
-                debugPrint("AI: slotnum update : " + slotnum);
-            }
+            entity.setYoujoAI(entity.defaultAI);
         }
     }
     
@@ -73,7 +67,6 @@ public class YoujoAI_EasyAIInterface implements IYoujoAI {
     
     @Override
     public void entityCollision(Entity par1Entity) {
-        this.manager.memory.EAI_event_onDamege = new Date();
     }
     
     @Override
