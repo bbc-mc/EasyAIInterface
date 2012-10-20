@@ -17,6 +17,7 @@ public class EAI_Item_TASK_move2target extends EAI_ItemBase {
         super(par1);
         this.setItemName("EAI_TASK_move2target");
         this.setItemTypeBranching(false);
+        this.setMaxDamage(0);
     }
     
     @Override

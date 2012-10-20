@@ -7,7 +7,16 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
+import net.minecraft.src.mod_EasyAIInterface;
+import net.minecraft.src.forge.MinecraftForgeClient;
 
+/**
+ * MOD が Load された時の Item に関する登録処理を行うクラス
+ * 
+ * Item 登録とレシピ登録を行う。また addEAIItem 関数を利用して EAI_ItemBase を継承する AI チップの登録を行う
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Items {
     // Map of EAI_Items
     private Map<String, Item> itemlist = new HashMap();
@@ -16,20 +25,24 @@ public class EAI_Items {
     private EasyAIInterface mod;
     
     // Instance of Items
-    private Item Item_SYS_return;
-    private Item Item_SYS_start;
-    
     private Item Item_CTRL_IF_EnemyNearby;
     private Item Item_CTRL_IF_HPLow;
     
-    private Item Item_SEARCH_master;
     private Item Item_SEARCH_enemy;
+    private Item Item_SEARCH_item;
+    private Item Item_SEARCH_master;
     private Item Item_SEARCH_mob;
     
-    private Item Item_TASK_eatFood;
+    private Item Item_SYS_return;
+    private Item Item_SYS_start;
+    private Item Item_SYS_wait;
+    
+    private Item Item_TASK_attackByRangedWeapon;
     private Item Item_TASK_attackOnCollide;
+    private Item Item_TASK_eatFood;
     private Item Item_TASK_move2target;
     private Item Item_TASK_playSound;
+    private Item Item_TASK_swim;
     
     public EAI_Items(EasyAIInterface mod) {
         this.mod = mod;
@@ -39,19 +52,23 @@ public class EAI_Items {
         Item_CTRL_IF_HPLow = new EAI_Item_CTRL_IF_HPLow(mod.mod_EAI.idItem_ctrl_if_hp_low - 256);
         
         // Item:Search
-        Item_SEARCH_master = new EAI_Item_SEARCH_master(mod.mod_EAI.idItem_search_parent - 256);
         Item_SEARCH_enemy = new EAI_Item_SEARCH_enemy(mod.mod_EAI.idItem_search_enemy - 256);
+        Item_SEARCH_item = new EAI_Item_SEARCH_item(mod.mod_EAI.idItem_search_item - 256);
+        Item_SEARCH_master = new EAI_Item_SEARCH_master(mod.mod_EAI.idItem_search_master - 256);
         Item_SEARCH_mob = new EAI_Item_SEARCH_mob(mod.mod_EAI.idItem_search_mob - 256);
-        
-        // Item:Task
-        Item_TASK_eatFood = new EAI_Item_TASK_eatFood(mod.mod_EAI.idItem_task_eat_food - 256);
-        Item_TASK_attackOnCollide = new EAI_Item_TASK_attackOnCollide(mod.mod_EAI.idItem_task_attackOnCollide - 256);
-        Item_TASK_move2target = new EAI_Item_TASK_move2target(mod.mod_EAI.idItem_task_move2target - 256);
-        Item_TASK_playSound = new EAI_Item_TASK_playSound(mod.mod_EAI.idItem_task_playSound - 256);
         
         // Item:System
         Item_SYS_return = new EAI_Item_SYS_return(mod.mod_EAI.idItem_sys_return - 256);
         Item_SYS_start = new EAI_Item_SYS_start(mod.mod_EAI.idItem_sys_start - 256);
+        Item_SYS_wait = new EAI_Item_SYS_wait(mod.mod_EAI.idItem_sys_wait - 256);
+        
+        // Item:Task
+        Item_TASK_attackByRangedWeapon = new EAI_Item_TASK_attackByRangedWeapon(mod.mod_EAI.idItem_task_attackByRangedWeapon - 256);
+        Item_TASK_attackOnCollide = new EAI_Item_TASK_attackOnCollide(mod.mod_EAI.idItem_task_attackOnCollide - 256);
+        Item_TASK_eatFood = new EAI_Item_TASK_eatFood(mod.mod_EAI.idItem_task_eat_food - 256);
+        Item_TASK_move2target = new EAI_Item_TASK_move2target(mod.mod_EAI.idItem_task_move2target - 256);
+        Item_TASK_playSound = new EAI_Item_TASK_playSound(mod.mod_EAI.idItem_task_playSound - 256);
+        Item_TASK_swim = new EAI_Item_TASK_swim(mod.mod_EAI.idItem_task_swim - 256);
         
         // Recipe (dummy recipe)
         ModLoader.addRecipe(new ItemStack(Item_CTRL_IF_EnemyNearby, 1), new Object[] { " R ", " pR", " p ", Character.valueOf('p'), Block.planks,
@@ -82,6 +99,7 @@ public class EAI_Items {
         this.addEAIItem("eai.ctrl.if.enemynearby", Item_CTRL_IF_EnemyNearby);
         this.addEAIItem("eai.ctrl.if.hplow", Item_CTRL_IF_HPLow);
         this.addEAIItem("eai.search.master", Item_SEARCH_master);
+        this.addEAIItem("eai.search.item", Item_SEARCH_item);
         this.addEAIItem("eai.search.enemy", Item_SEARCH_enemy);
         this.addEAIItem("eai.search.mob", Item_SEARCH_mob);
         this.addEAIItem("eai.task.eatfood", Item_TASK_eatFood);
@@ -89,6 +107,13 @@ public class EAI_Items {
         this.addEAIItem("eai.task.move2target", Item_TASK_move2target);
         this.addEAIItem("eai.sys.return", Item_SYS_return);
         this.addEAIItem("eai.sys.start", Item_SYS_start);
+        this.addEAIItem("eai.sys.wait", Item_SYS_wait);
+        
+        // Load Item texture
+        for (Item item : this.itemlist.values()) {
+            this.preloadTexture("/bbc_mc/EasyAIInterface/texture/", item, ".png");
+        }
+        
     }
     
     public boolean isEAIItem(ItemStack itemstack) {
@@ -112,5 +137,11 @@ public class EAI_Items {
             itemlist.put(name, item);
             return true;
         }
+    }
+    
+    //
+    private void preloadTexture(String path, Item item, String footer) {
+        mod_EasyAIInterface.getInstance().mod.debugPrint(path + item.getItemName().replace("item.", "") + footer);
+        MinecraftForgeClient.preloadTexture(path + item.getItemName().replace("item.", "") + footer);
     }
 }

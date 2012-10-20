@@ -13,6 +13,7 @@ public class EAI_Item_TASK_eatFood extends EAI_ItemBase {
         super(par1);
         this.setItemName("EAI_TASK_eatFood");
         this.setItemTypeBranching(false);
+        this.setMaxDamage(0);
     }
     
     @Override

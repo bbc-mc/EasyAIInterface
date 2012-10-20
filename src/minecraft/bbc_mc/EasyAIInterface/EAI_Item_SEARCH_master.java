@@ -12,6 +12,7 @@ public class EAI_Item_SEARCH_master extends EAI_ItemBase {
         super(par1);
         this.setItemName("EAI_SEARCH_master");
         this.setItemTypeBranching(true);
+        this.setMaxDamage(0);
     }
     
     @Override
@@ -37,5 +38,4 @@ public class EAI_Item_SEARCH_master extends EAI_ItemBase {
             return this.returnFalse();
         }
     }
-    
 }

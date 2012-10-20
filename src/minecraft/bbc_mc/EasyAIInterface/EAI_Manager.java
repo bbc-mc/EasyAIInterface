@@ -5,6 +5,13 @@ import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.mod_EasyAIInterface;
 
+/**
+ * AI チップ処理クラス
+ * 
+ * 登録されたインベントリ内を参照し、認識している currentSlot にある AI チップを実行する
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Manager {
     
     public int slot_start;
@@ -78,8 +85,9 @@ public class EAI_Manager {
         
         // 終了前処理
         if (ret == -1) {
-            this.mod.debugPrint("[EAI_Manager] abort. returned : " + ret + " " + ((EAI_ItemBase) currentSlotItem.getItem()).getItemName());
-            return false;// abort
+            this.mod.debugPrint("[EAI_Manager] returned : " + ret + " " + ((EAI_ItemBase) currentSlotItem.getItem()).getItemName());
+            this.currentSlot = this.slot_start;
+            return true; // manager が認識している start チップへ戻る
         } else if (ret > this.inventory.getSizeInventory()) {
             this.mod.debugPrint("[EAI_Manager] return to 0. reach right end.");
             this.currentSlot = this.slot_start;

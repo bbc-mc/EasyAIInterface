@@ -7,9 +7,18 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import net.minecraft.src.mod_EasyAIInterface;
 
+/**
+ * AI チップのベースクラス
+ * 
+ * AI チップは、本クラスを継承して作成する
+ * 
+ * @author bbc_mc
+ */
 public class EAI_ItemBase extends Item {
     
+    // 処理移動先を示すための方向列挙
     public enum Direction {
         RIGHT, //
         DOWN_RIGHT, //
@@ -19,18 +28,30 @@ public class EAI_ItemBase extends Item {
         UPPER_LEFT, //
         UP, //
         UPPER_RIGHT;
+        /**
+         * 次の処理対象スロットを取得する
+         * 
+         * インベントリの壁面処理を行い、次の指示先が壁面を指す場合に -1 を返す
+         * 
+         * @param inventory
+         * @param slotnum
+         * @param maxcol
+         * @param dir
+         * @return nextslot 次の処理対象スロット
+         * @return -1 インベントリ壁面を指している
+         */
         public static int getNextSlot(IInventory inventory, int slotnum, int maxcol, Direction dir) {
             int ret = 0;
             switch (dir) {
                 case RIGHT:
-                    ret = +1;
+                    ret = 1;
                     if ((slotnum + 1) % maxcol == 0) {
                         return -1;
                     }
                     break;
                 case DOWN_RIGHT:
-                    ret = +1 + maxcol;
-                    if ((slotnum - 1) % maxcol == 0) {
+                    ret = 1 + maxcol;
+                    if ((slotnum + 1) % maxcol == 0) {
                         return -1;
                     }
                     if (inventory.getSizeInventory() - slotnum < maxcol) {
@@ -38,7 +59,7 @@ public class EAI_ItemBase extends Item {
                     }
                     break;
                 case DOWN:
-                    ret = +maxcol;
+                    ret = maxcol;
                     if (inventory.getSizeInventory() - slotnum < maxcol) {
                         return -1;
                     }
@@ -71,8 +92,8 @@ public class EAI_ItemBase extends Item {
                     }
                     break;
                 case UPPER_RIGHT:
-                    ret = +1 - maxcol;
-                    if ((slotnum - 1) % maxcol == 0) {
+                    ret = 1 - maxcol;
+                    if ((slotnum + 1) % maxcol == 0) {
                         return -1;
                     }
                     if (slotnum < maxcol) {
@@ -84,32 +105,76 @@ public class EAI_ItemBase extends Item {
         }
     }
     
-    protected int value_true;
-    protected int value_false;
+    // 条件分岐する場合、条件判定が成功した場合に進む先のスロット番号
+    public int value_true;
+    // 条件分岐する場合、条件判定が失敗した場合に進む先のスロット番号
+    public int value_false;
+    // AI チップが分岐するかどうか
     protected boolean isBranchingItem;
     
-    protected EAI_ItemBase(int par1) {
+    public EAI_ItemBase(int par1) {
         super(par1);
         this.setHasSubtypes(true);
+        this.setMaxDamage(0);
         this.setMaxStackSize(1);
-        this.setMaxDamage(64);
         this.isBranchingItem = false;
     }
     
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
         int currentDamage = par1ItemStack.getItemDamage();
-        par1ItemStack.setItemDamage((currentDamage + 1) % par1ItemStack.getMaxDamage());
-        System.out.println(par1ItemStack.getItemDamage());
+        int maxDamage;
+        if (this.isBranchingItem) {
+            maxDamage = 64;
+        } else {
+            maxDamage = 8;
+        }
+        if (par3EntityPlayer.isSneaking()) {
+            currentDamage = (currentDamage + 8) % maxDamage;
+        } else {
+            currentDamage = ((currentDamage / 8 * 8) + (currentDamage % 8 + 1) % 8) % maxDamage;
+        }
+        par1ItemStack.setItemDamage(currentDamage);
+        mod_EasyAIInterface.getInstance().mod.debugPrint(" currentItemDamage : " + par1ItemStack.getItemDamage());
         return par1ItemStack;
     }
     
     @Override
     public int getIconFromDamage(int par1) {
         int i = MathHelper.clamp_int(par1, 0, 63);
-        return iconIndex + (i % 8) * 16 + i / 8;
+        // this.setIconCoord((i / 8), (i % 8));
+        // mod_EasyAIInterface.getInstance().mod.debugPrint(" true :" + Direction.values()[i % 8]);
+        // mod_EasyAIInterface.getInstance().mod.debugPrint(" false:" + Direction.values()[i / 8]);
+        if (this.isBranchingItem) {
+            return i % 8 + i / 8 * 16;
+        } else {
+            return i % 8;
+        }
+        // return iconIndex;
     }
     
+    @Override
+    public String getTextureFile() {
+        return "/bbc_mc/EasyAIInterface/texture/" + this.getItemName().replace("item.", "") + ".png";
+    }
+    
+    @Override
+    public boolean isDamageable() {
+        return true;
+    }
+    
+    /**
+     * この関数をオーバーライドし、各 AI チップ固有の処理を記述する
+     * 
+     * ☆注意 かならず super.execute か setReturnValue を最初に行う事。 setReturnValue により、次の処理対象スロットを算出しているため。
+     * 
+     * @param manager
+     * @param entity
+     * @param inventory
+     * @param slotnum
+     * @param maxcol
+     * @return
+     */
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         this.setReturnValue(inventory, slotnum, maxcol);
         // write your code
@@ -128,6 +193,13 @@ public class EAI_ItemBase extends Item {
         return this.value_true;
     }
     
+    /**
+     * 条件判定失敗時の次の処理対象スロットを返す
+     * 
+     * 条件分岐無しの場合は、returnTrue 関数と同じ値を返す
+     * 
+     * @return
+     */
     protected int returnFalse() {
         if (this.isBranchingItem) {
             return this.value_false;
@@ -136,21 +208,35 @@ public class EAI_ItemBase extends Item {
         }
     }
     
-    //
-    // treat ItemDamage => Direction convert
-    //
-    // 下 3bit 000111
+    /**
+     * ダメージ値から、条件判定 "成功" 時に次に進む方向を取得する
+     * 
+     * @param inventory
+     * @param slotnum
+     * @return
+     */
     protected Direction getDirectionTrueFromDamage(IInventory inventory, int slotnum) {
         int currentDamage = inventory.getStackInSlot(slotnum).getItemDamage() % 8;
         return Direction.values()[currentDamage];
     }
     
-    // 上 3 bit 111000
+    /**
+     * ダメージ値から、条件判定 "失敗" 時に次に進む方向を取得する
+     * 
+     * @param inventory
+     * @param slotnum
+     * @return
+     */
     protected Direction getDirectionFalseFromDamage(IInventory inventory, int slotnum) {
         int currentDamage = inventory.getStackInSlot(slotnum).getItemDamage() / 8;
         return Direction.values()[currentDamage];
     }
     
+    /**
+     * AI チップが条件分岐を行うかどうかを設定する
+     * 
+     * @param flg
+     */
     protected void setItemTypeBranching(boolean flg) {
         this.isBranchingItem = flg;
     }

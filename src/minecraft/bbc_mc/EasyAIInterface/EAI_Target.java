@@ -6,8 +6,6 @@ import net.minecraft.src.Vec3D;
 /**
  * 選択したターゲットの情報を保持するクラス
  * 
- * ターゲットが Entity の場合と座標の場合に対応する
- * 
  * @author bbc_mc
  */
 public class EAI_Target {

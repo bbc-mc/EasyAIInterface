@@ -3,9 +3,6 @@ package bbc_mc.EasyAIInterface;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.EntityLittleMaid;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityYoujo;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_EasyAIInterface;
@@ -16,14 +13,13 @@ public class EasyAIInterface {
     public EAI_Localize localize;
     
     public boolean isLoaded_MOD_Youjo = false;
-    public boolean isLoaded_MOD_LittleMaidMob = false;
     
     public EasyAIInterface(mod_EasyAIInterface mod) {
         this.mod_EAI = mod;
     }
     
     public String getVersion() {
-        return null;
+        return "1.2.5-1.0.0";
     }
     
     public void load() {
@@ -41,7 +37,6 @@ public class EasyAIInterface {
     }
     
     public void addRenderer(Map map) {
-        
     }
     
     public void keyboardEvent(KeyBinding keybinding) {
@@ -49,16 +44,6 @@ public class EasyAIInterface {
     }
     
     public void modsLoaded() {
-        if (ModLoader.getLoadedMods().contains("mod_YoujoMod")) {
-            this.isLoaded_MOD_Youjo = true;
-        } else {
-            System.out.println(ModLoader.getLoadedMods());
-        }
-        if (ModLoader.getLoadedMods().contains("mod_LittleMaidMob")) {
-            this.isLoaded_MOD_LittleMaidMob = true;
-        } else {
-            System.out.println(ModLoader.getLoadedMods());
-        }
     }
     
     // =====================================================
@@ -71,23 +56,5 @@ public class EasyAIInterface {
         if (mod_EAI.debug_mode) {
             System.out.println(str);
         }
-    }
-    
-    public boolean isEntityYoujo(EntityLiving entity) {
-        if (this.isLoaded_MOD_Youjo) {
-            if (entity instanceof EntityYoujo) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public boolean isEntityLMM(EntityLiving entity) {
-        if (this.isLoaded_MOD_Youjo) {
-            if (entity instanceof EntityLittleMaid) {
-                return true;
-            }
-        }
-        return false;
     }
 }

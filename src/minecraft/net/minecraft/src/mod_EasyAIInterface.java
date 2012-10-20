@@ -12,41 +12,47 @@ public class mod_EasyAIInterface extends BaseMod {
     // Settings
     //
     @MLProp
-    public static boolean debug_mode = true;
+    public static boolean debug_mode = false;
     @MLProp
     public static int loopWait = 4;
     
     // Item:Search (entity)
     @MLProp
-    public static int idItem_search_parent = 29001;
+    public static int idItem_search_master = 29001;
     @MLProp
     public static int idItem_search_enemy = 29002;
     @MLProp
     public static int idItem_search_mob = 29003;
+    @MLProp
+    public static int idItem_search_item = 29004;
     
     // Item:Control. (if,,)
     @MLProp
     public static int idItem_ctrl_if_enemy_nearby = 29101;
     @MLProp
     public static int idItem_ctrl_if_hp_low = 29102;
-    @MLProp
-    public static int idItem_ctrl_coninue = 29103;
     
     // Item:Task
     @MLProp
-    public static int idItem_task_eat_food = 29201;
+    public static int idItem_task_attackByRangedWeapon = 29201;
     @MLProp
     public static int idItem_task_attackOnCollide = 29202;
     @MLProp
-    public static int idItem_task_move2target = 29203;
+    public static int idItem_task_eat_food = 29203;
     @MLProp
-    public static int idItem_task_playSound = 29204;
+    public static int idItem_task_move2target = 29204;
+    @MLProp
+    public static int idItem_task_playSound = 29205;
+    @MLProp
+    public static int idItem_task_swim = 29206;
     
     // Item:System
     @MLProp
     public static int idItem_sys_return = 29301;
     @MLProp
     public static int idItem_sys_start = 29302;
+    @MLProp
+    public static int idItem_sys_wait = 29303;
     
     public final EasyAIInterface mod;
     
