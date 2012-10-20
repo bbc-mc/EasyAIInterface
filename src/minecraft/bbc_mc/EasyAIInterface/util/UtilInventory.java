@@ -62,7 +62,7 @@ public class UtilInventory {
      * @param j
      * @return
      */
-    public ItemStack decrStackSize(IInventory inventory, int i, int j) {
+    public static ItemStack decrStackSize(IInventory inventory, int i, int j) {
         
         if (inventory.getStackInSlot(i) != null) {
             ItemStack itemstack;
@@ -116,7 +116,7 @@ public class UtilInventory {
         return -1;
     }
     
-    public ItemStack getStackInSlot(IInventory inventory, int i) {
+    public static ItemStack getStackInSlot(IInventory inventory, int i) {
         if (0 <= i && i < inventory.getSizeInventory()) {
             return inventory.getStackInSlot(i);
         } else {

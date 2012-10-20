@@ -1,4 +1,4 @@
-package bbc_mc.util;
+package bbc_mc.EasyAIInterface.util;
 
 /**
  * Sort by Distance from BASE-Entity
