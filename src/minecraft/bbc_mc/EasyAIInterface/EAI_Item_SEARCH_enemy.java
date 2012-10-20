@@ -5,17 +5,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityMob;
 import net.minecraft.src.IInventory;
+import net.minecraft.src.IMob;
 import net.minecraft.src.mod_EasyAIInterface;
-import bbc_mc.util.SorterDistanceToEntity;
+import bbc_mc.EasyAIInterface.util.SorterDistanceToEntity;
 
 public class EAI_Item_SEARCH_enemy extends EAI_ItemBase {
     
     protected EAI_Item_SEARCH_enemy(int par1) {
         super(par1);
         this.setItemName("EAI_SEARCH_enemy");
-        this.setItemTypeBranching(false);
+        this.setItemTypeBranching(true);
+        this.setMaxDamage(0);
     }
     
     @Override
@@ -31,12 +32,11 @@ public class EAI_Item_SEARCH_enemy extends EAI_ItemBase {
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
             Object obj = iterator.next();
-            if (obj instanceof EntityMob && ((EntityMob) obj).getAttackTarget().equals(entity)) {
-                manager.memory.target.setTarget((EntityMob) obj);
+            if (obj instanceof IMob && ((EntityLiving) obj).getAttackTarget() != null && ((EntityLiving) obj).getAttackTarget().equals(entity)) {
+                manager.memory.target.setTarget((EntityLiving) obj);
                 return this.returnTrue();
             }
         }
         return this.returnFalse();
     }
-    
 }

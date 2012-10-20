@@ -1,4 +1,4 @@
-package bbc_mc.util;
+package bbc_mc.EasyAIInterface.util;
 
 /**
  * Util: Inventory

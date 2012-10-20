@@ -1,7 +1,10 @@
 package bbc_mc.EasyAIInterface;
 
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.World;
 import net.minecraft.src.mod_EasyAIInterface;
 
 public class EAI_Item_SYS_return extends EAI_ItemBase {
@@ -10,6 +13,7 @@ public class EAI_Item_SYS_return extends EAI_ItemBase {
         super(par1);
         this.setItemName("EAI_SYS_return");
         this.setItemTypeBranching(false);
+        this.setMaxDamage(0);
     }
     
     @Override
@@ -19,4 +23,9 @@ public class EAI_Item_SYS_return extends EAI_ItemBase {
         return manager.slot_start;
     }
     
+    @Override
+    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+        // do nothing
+        return par1ItemStack;
+    }
 }

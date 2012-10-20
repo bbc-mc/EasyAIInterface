@@ -9,20 +9,17 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityZombie;
 import net.minecraft.src.IInventory;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.mod_EasyAIInterface;
-import bbc_mc.util.SorterDistanceToEntity;
+import bbc_mc.EasyAIInterface.util.SorterDistanceToEntity;
 
-/**
- * 探索チップ : 設定した MobType の mob を探索し、target へセットする
- * 
- * @author bbc_mc
- */
 public class EAI_Item_SEARCH_mob extends EAI_ItemBase {
     
     protected EAI_Item_SEARCH_mob(int par1) {
         super(par1);
         this.setItemName("EAI_SEARCH_mob");
-        this.setItemTypeBranching(false);
+        this.setItemTypeBranching(true);
+        this.setMaxDamage(0);
     }
     
     @Override
@@ -35,11 +32,14 @@ public class EAI_Item_SEARCH_mob extends EAI_ItemBase {
         List list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(range, 4D, range));
         Collections.sort(list, new SorterDistanceToEntity(entity));
         Iterator iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Object obj = iterator.next();
-            if (this.isTargetMobClassFromDamage((Entity) obj)) {
-                manager.memory.target.setTarget((EntityMob) obj);
-                return this.returnTrue();
+        ItemStack currentItemStack = inventory.getStackInSlot(slotnum);
+        if (currentItemStack != null) {
+            while (iterator.hasNext()) {
+                Object obj = iterator.next();
+                if (this.isTargetMobClassFromDamage(((Entity) obj), currentItemStack.getItemDamage())) {
+                    manager.memory.target.setTarget((EntityMob) obj);
+                    return this.returnTrue();
+                }
             }
         }
         return this.returnFalse();
@@ -48,8 +48,9 @@ public class EAI_Item_SEARCH_mob extends EAI_ItemBase {
     
     // =====================================================
     // TODO: dummy code.
-    private boolean isTargetMobClassFromDamage(Entity target) {
-        if (target instanceof EntityZombie) {
+    private boolean isTargetMobClassFromDamage(Entity target, int damage) {
+        int type = damage / 8;
+        if (((type & 0x1) != 0) && target instanceof EntityZombie) {
             return true;
         }
         return false;

@@ -11,6 +11,7 @@ public class EAI_Item_TASK_playSound extends EAI_ItemBase {
         super(par1);
         this.setItemName("EAI_TASK_playSound");
         this.setItemTypeBranching(false);
+        this.setMaxDamage(0);
     }
     
     @Override
