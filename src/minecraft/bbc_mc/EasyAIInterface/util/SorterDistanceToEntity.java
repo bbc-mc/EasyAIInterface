@@ -11,6 +11,11 @@ import java.util.Comparator;
 
 import net.minecraft.src.Entity;
 
+/**
+ * Entity への距離でソートするための Comparator
+ * 
+ * @author bbc_mc
+ */
 public class SorterDistanceToEntity implements Comparator {
     private Entity sourceEntity;
     

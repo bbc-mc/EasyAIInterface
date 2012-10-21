@@ -40,12 +40,12 @@ public class EAI_Localize {
         
     }
     
-    private void addLocalization(String target, String str_en_US, String str_ja_JP) {
+    public void addLocalization(String target, String str_en_US, String str_ja_JP) {
         ModLoader.addLocalization(target, "en_US", str_en_US);
         ModLoader.addLocalization(target, "ja_JP", str_ja_JP);
     }
     
-    private void addInformation(String target, String lang, String line1, String line2, String line3, String line4) {
+    public void addInformation(String target, String lang, String line1, String line2, String line3, String line4) {
         ModLoader.addLocalization(target, lang, line1);
         ModLoader.addLocalization(target, lang, line2);
         ModLoader.addLocalization(target, lang, line3);

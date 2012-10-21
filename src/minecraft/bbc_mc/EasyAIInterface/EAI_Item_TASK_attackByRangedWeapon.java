@@ -1,11 +1,15 @@
 package bbc_mc.EasyAIInterface;
 
-import net.minecraft.src.DamageSource;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.mod_EasyAIInterface;
 
+/**
+ * AI チップ: ターゲット変数に格納されている Entity に対して、遠距離攻撃を仕掛ける
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_TASK_attackByRangedWeapon extends EAI_ItemBase {
     
     protected EAI_Item_TASK_attackByRangedWeapon(int par1) {
@@ -25,18 +29,16 @@ public class EAI_Item_TASK_attackByRangedWeapon extends EAI_ItemBase {
             return this.returnFalse();
         }
         
-        // IF entity has rangedWeapon
-        // if(entity.getHeldItem())
+        // TODO: dummy code
+        // AI動作Entity は遠距離攻撃用武器を装備しているか
         
         Entity target = manager.memory.getTargetEntity();
         double distance = entity.getDistanceToEntity(target);
         int damage = 1;
-        // nearby enough
-        if (distance < 2.0D) {
-            target.attackEntityFrom(DamageSource.causeMobDamage(entity), damage);
-            return this.returnTrue();
-        } else {
-            return this.returnFalse();
-        }
+        
+        // TODO: dummy code
+        // nearby enough, attack
+        
+        return this.returnTrue();
     }
 }

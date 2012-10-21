@@ -19,6 +19,11 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 
+/**
+ * インベントリ操作用の Utility クラス
+ * 
+ * @author bbc_mc
+ */
 public class UtilInventory {
     
     /**
@@ -88,7 +93,7 @@ public class UtilInventory {
     }
     
     //
-    // copied from "mcp62_1.2.5 ItemStack.java" for backward compatibility
+    // copied from "mcp62_1.2.5 ItemStack.java" for backward compatibility, (for in mc 1.3.2)
     //
     private static boolean func_46154_a(ItemStack par0ItemStack, ItemStack par1ItemStack) {
         if (par0ItemStack == null && par1ItemStack == null) {

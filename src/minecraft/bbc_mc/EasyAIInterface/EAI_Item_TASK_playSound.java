@@ -4,14 +4,19 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.mod_EasyAIInterface;
 
-// TODO: this is dummy code.
+/**
+ * AI チップ: サウンドを再生する
+ * 
+ * TODO: this is dummy code.
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_TASK_playSound extends EAI_ItemBase {
     
     protected EAI_Item_TASK_playSound(int par1) {
         super(par1);
         this.setItemName("EAI_TASK_playSound");
         this.setItemTypeBranching(false);
-        this.setMaxDamage(0);
     }
     
     @Override

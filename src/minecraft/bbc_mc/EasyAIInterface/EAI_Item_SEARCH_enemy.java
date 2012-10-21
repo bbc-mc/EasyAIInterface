@@ -10,6 +10,11 @@ import net.minecraft.src.IMob;
 import net.minecraft.src.mod_EasyAIInterface;
 import bbc_mc.EasyAIInterface.util.SorterDistanceToEntity;
 
+/**
+ * AI チップ: 周辺の敵を探索し、ターゲット変数へ格納する
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_SEARCH_enemy extends EAI_ItemBase {
     
     protected EAI_Item_SEARCH_enemy(int par1) {

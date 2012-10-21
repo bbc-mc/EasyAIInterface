@@ -7,7 +7,7 @@ import net.minecraft.src.Vec3D;
 import net.minecraft.src.mod_EasyAIInterface;
 
 /**
- * Taskチップ : ターゲットへの移動
+ * AI チップ: ターゲット変数に格納されている Entity/位置 へ移動する
  * 
  * @author bbc_mc
  */
@@ -17,7 +17,6 @@ public class EAI_Item_TASK_move2target extends EAI_ItemBase {
         super(par1);
         this.setItemName("EAI_TASK_move2target");
         this.setItemTypeBranching(false);
-        this.setMaxDamage(0);
     }
     
     @Override

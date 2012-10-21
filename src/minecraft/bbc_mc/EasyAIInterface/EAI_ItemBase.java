@@ -142,7 +142,6 @@ public class EAI_ItemBase extends Item {
     @Override
     public int getIconFromDamage(int par1) {
         int i = MathHelper.clamp_int(par1, 0, 63);
-        // this.setIconCoord((i / 8), (i % 8));
         // mod_EasyAIInterface.getInstance().mod.debugPrint(" true :" + Direction.values()[i % 8]);
         // mod_EasyAIInterface.getInstance().mod.debugPrint(" false:" + Direction.values()[i / 8]);
         if (this.isBranchingItem) {
@@ -166,7 +165,9 @@ public class EAI_ItemBase extends Item {
     /**
      * この関数をオーバーライドし、各 AI チップ固有の処理を記述する
      * 
-     * ☆注意 かならず super.execute か setReturnValue を最初に行う事。 setReturnValue により、次の処理対象スロットを算出しているため。
+     * ☆注意 かならず super.execute か setReturnValue を最初に行う事。
+     * 
+     * setReturnValue により、次の処理対象スロットを算出しているため。
      * 
      * @param manager
      * @param entity
@@ -177,7 +178,7 @@ public class EAI_ItemBase extends Item {
      */
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         this.setReturnValue(inventory, slotnum, maxcol);
-        // write your code
+        // write your code HERE
         
         // return your answer
         return this.returnTrue();
@@ -235,6 +236,7 @@ public class EAI_ItemBase extends Item {
     /**
      * AI チップが条件分岐を行うかどうかを設定する
      * 
+     * @see isBranchingItem
      * @param flg
      */
     protected void setItemTypeBranching(boolean flg) {

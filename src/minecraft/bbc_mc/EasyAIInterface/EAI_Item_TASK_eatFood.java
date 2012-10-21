@@ -5,15 +5,19 @@ import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemFood;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.mod_EasyAIInterface;
-import bbc_mc.util.UtilInventory;
+import bbc_mc.EasyAIInterface.util.UtilInventory;
 
+/**
+ * AI チップ: インベントリ内を検索し、ItemFood に属するアイテムがあった場合、食べて HP を回復する
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_TASK_eatFood extends EAI_ItemBase {
     
     protected EAI_Item_TASK_eatFood(int par1) {
         super(par1);
         this.setItemName("EAI_TASK_eatFood");
         this.setItemTypeBranching(false);
-        this.setMaxDamage(0);
     }
     
     @Override

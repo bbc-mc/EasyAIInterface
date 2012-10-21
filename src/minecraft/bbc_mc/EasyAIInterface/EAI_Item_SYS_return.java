@@ -7,13 +7,17 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraft.src.mod_EasyAIInterface;
 
+/**
+ * AI チップ: 処理位置を EAI_Manager が認識している初期チップへ戻す
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_SYS_return extends EAI_ItemBase {
     
     protected EAI_Item_SYS_return(int par1) {
         super(par1);
         this.setItemName("EAI_SYS_return");
         this.setItemTypeBranching(false);
-        this.setMaxDamage(0);
     }
     
     @Override

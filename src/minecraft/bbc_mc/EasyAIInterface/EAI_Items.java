@@ -18,7 +18,7 @@ import net.minecraft.src.forge.MinecraftForgeClient;
  * @author bbc_mc
  */
 public class EAI_Items {
-    // Map of EAI_Items
+    // EAI_Item を登録するマップ
     private Map<String, Item> itemlist = new HashMap();
     
     // Base class

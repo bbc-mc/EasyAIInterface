@@ -13,13 +13,17 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.mod_EasyAIInterface;
 import bbc_mc.EasyAIInterface.util.SorterDistanceToEntity;
 
+/**
+ * AI チップ: 周辺の Mob を探索し、ターゲット変数へ格納する
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_SEARCH_mob extends EAI_ItemBase {
     
     protected EAI_Item_SEARCH_mob(int par1) {
         super(par1);
         this.setItemName("EAI_SEARCH_mob");
         this.setItemTypeBranching(true);
-        this.setMaxDamage(0);
     }
     
     @Override

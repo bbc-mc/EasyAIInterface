@@ -10,6 +10,11 @@ import net.minecraft.src.IInventory;
 import net.minecraft.src.mod_EasyAIInterface;
 import bbc_mc.EasyAIInterface.util.SorterDistanceToEntity;
 
+/**
+ * AI チップ: 周辺に敵対Mobが存在するかどうかを返す
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_CTRL_IF_EnemyNearby extends EAI_ItemBase {
     
     private int ret_true;
@@ -19,7 +24,6 @@ public class EAI_Item_CTRL_IF_EnemyNearby extends EAI_ItemBase {
         super(par1);
         this.setItemName("EAI_CTRL_IfEnemyNearby");
         this.setItemTypeBranching(true);
-        this.setMaxDamage(0);
     }
     
     @Override

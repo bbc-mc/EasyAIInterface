@@ -17,6 +17,11 @@ import net.minecraft.src.TileEntity;
 import net.minecraft.src.Vec3D;
 import net.minecraft.src.World;
 
+/**
+ * 位置情報をベクトルを処理するための Utility クラス
+ * 
+ * @author bbc_mc
+ */
 public class UtilPosition {
     
     private static World world;

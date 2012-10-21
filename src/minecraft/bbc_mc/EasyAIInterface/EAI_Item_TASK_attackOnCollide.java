@@ -6,13 +6,17 @@ import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.mod_EasyAIInterface;
 
+/**
+ * AI チップ: ターゲット変数に格納されている Entity に対して、近距離攻撃を仕掛ける
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_TASK_attackOnCollide extends EAI_ItemBase {
     
     protected EAI_Item_TASK_attackOnCollide(int par1) {
         super(par1);
         this.setItemName("EAI_TASK_attackOnCollide");
         this.setItemTypeBranching(false);
-        this.setMaxDamage(0);
     }
     
     @Override
