@@ -45,6 +45,8 @@ public class mod_EasyAIInterface extends BaseMod {
     public static int idItem_task_playSound = 29205;
     @MLProp
     public static int idItem_task_swim = 29206;
+    @MLProp
+    public static int idItem_task_pickupItem = 29207;
     
     // Item:System
     @MLProp

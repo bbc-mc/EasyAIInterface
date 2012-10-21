@@ -37,6 +37,7 @@ public class EAI_Localize {
         this.addLocalization("item.EAI_TASK_move2target.name", "TaskTip: move2target", "実行チップ: Target へ移動");
         this.addLocalization("item.EAI_TASK_playSound.name", "TaskTip: play Sound", "実行チップ: 音を再生");
         this.addLocalization("item.EAI_TASK_swim.name", "TaskTip: swim", "実行チップ: 泳ぐ");
+        this.addLocalization("item.EAI_TASK_pickupItem.name", "TaskTip: Pickup Item", "実行チップ: アイテムを拾う");
         
     }
     
