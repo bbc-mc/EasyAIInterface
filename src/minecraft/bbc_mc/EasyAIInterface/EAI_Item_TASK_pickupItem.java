@@ -47,7 +47,7 @@ public class EAI_Item_TASK_pickupItem extends EAI_ItemBase {
                     // pickup
                     if (UtilInventory.addItemStackToInventory(inventory, targetItem.item)) {
                         targetItem.setDead();
-                        manager.memory.target.setTarget(null);
+                        manager.memory.clearTarget();
                         // Sound
                         entity.worldObj.playSoundAtEntity(targetItem, "random.pop", 0.2F,
                                 ((entity.getRNG().nextFloat() - entity.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);

@@ -15,7 +15,7 @@ import net.minecraft.src.Vec3D;
 public class EAI_Memory {
     
     //
-    public EAI_Target target;
+    private EAI_Target target;
     // Event record
     public Date EAI_event_onStart;
     public Date EAI_event_onDamege;
@@ -35,6 +35,10 @@ public class EAI_Memory {
     
     public void setTarget(double posX, double posY, double posZ) {
         this.target.setTarget(posX, posY, posZ);
+    }
+    
+    public void clearTarget() {
+        this.target.clearTarget();
     }
     
     public Entity getTargetEntity() {

@@ -10,17 +10,13 @@ import net.minecraft.src.IInventory;
 import net.minecraft.src.mod_EasyAIInterface;
 import bbc_mc.EasyAIInterface.util.SorterDistanceToEntity;
 
-/**
- * AI チップ: 周辺に落下しているアイテムを探索し、ターゲット変数へ格納する
- * 
- * @author bbc_mc
- */
 public class EAI_Item_SEARCH_item extends EAI_ItemBase {
     
     protected EAI_Item_SEARCH_item(int par1) {
         super(par1);
         this.setItemName("EAI_SEARCH_item");
         this.setItemTypeBranching(true);
+        this.setMaxDamage(0);
     }
     
     @Override
@@ -38,7 +34,7 @@ public class EAI_Item_SEARCH_item extends EAI_ItemBase {
             while (iterator.hasNext()) {
                 Object obj = iterator.next();
                 if (obj instanceof EntityItem) {
-                    manager.memory.target.setTarget((EntityItem) obj);
+                    manager.memory.setTarget((EntityItem) obj);
                     return this.returnTrue();
                 }
             }

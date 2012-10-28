@@ -33,7 +33,10 @@ public class EAI_Item_TASK_move2target extends EAI_ItemBase {
             speed = (speed == 0 ? 0.3F : speed);
             if (manager.memory.isEntity()) {
                 Entity target = manager.memory.getTargetEntity();
-                if (target != null && entity.getNavigator().tryMoveToXYZ(target.posX, target.posY, target.posZ, speed)) {
+                if (target != null) {
+                    if (entity.getDistanceToEntity(target) > 2.5D) {
+                        entity.getNavigator().tryMoveToXYZ(target.posX, target.posY, target.posZ, speed);
+                    }
                     return this.returnTrue();
                 } else {
                     return this.returnFalse();

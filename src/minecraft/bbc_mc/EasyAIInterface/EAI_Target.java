@@ -1,6 +1,7 @@
 package bbc_mc.EasyAIInterface;
 
 import net.minecraft.src.Entity;
+import net.minecraft.src.ModLoader;
 import net.minecraft.src.Vec3D;
 
 /**
@@ -32,6 +33,11 @@ public class EAI_Target {
         this.targetPos = Vec3D.createVectorHelper(targetEntity.posX, targetEntity.posY, targetEntity.posZ);
     }
     
+    public void clearTarget() {
+        this.targetEntity = null;
+        this.targetPos = null;
+    }
+    
     public Entity getTargetEntity() {
         return this.targetEntity;
     }
@@ -46,5 +52,14 @@ public class EAI_Target {
     
     public boolean hasTarget() {
         return (this.targetEntity != null || this.targetPos != null);
+    }
+    
+    public int getTargetPosBlockID() {
+        if (!this.isEntity() && this.targetPos != null) {
+            return ModLoader.getMinecraftInstance().theWorld.getBlockId((int) Math.round(this.targetPos.xCoord),
+                    (int) Math.round(this.targetPos.yCoord), (int) Math.round(this.targetPos.zCoord));
+        } else {
+            return -1;
+        }
     }
 }

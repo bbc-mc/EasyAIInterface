@@ -6,17 +6,13 @@ import net.minecraft.src.EntityYoujo;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.mod_EasyAIInterface;
 
-/**
- * AI チップ: 主人を探索し、ターゲット変数へ格納する
- * 
- * @author bbc_mc
- */
 public class EAI_Item_SEARCH_master extends EAI_ItemBase {
     
     protected EAI_Item_SEARCH_master(int par1) {
         super(par1);
         this.setItemName("EAI_SEARCH_master");
         this.setItemTypeBranching(true);
+        this.setMaxDamage(0);
     }
     
     @Override
@@ -38,7 +34,7 @@ public class EAI_Item_SEARCH_master extends EAI_ItemBase {
          }
          */
         else {
-            manager.memory.setTarget(null);
+            manager.memory.clearTarget();
             return this.returnFalse();
         }
     }
