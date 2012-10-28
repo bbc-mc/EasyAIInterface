@@ -16,15 +16,17 @@ public class mod_EasyAIInterface extends BaseMod {
     @MLProp
     public static int loopWait = 4;
     
-    // Item:Search (entity)
+    // Item:Search
     @MLProp
-    public static int idItem_search_master = 29001;
+    public static int idItem_search_block = 29001;
     @MLProp
-    public static int idItem_search_enemy = 29002;
+    public static int idItem_search_master = 29002;
     @MLProp
-    public static int idItem_search_mob = 29003;
+    public static int idItem_search_enemy = 29003;
     @MLProp
-    public static int idItem_search_item = 29004;
+    public static int idItem_search_mob = 29004;
+    @MLProp
+    public static int idItem_search_item = 29005;
     
     // Item:Control. (if,,)
     @MLProp

@@ -8,7 +8,6 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_EasyAIInterface;
-import net.minecraft.src.forge.MinecraftForgeClient;
 
 /**
  * MOD が Load された時の Item に関する登録処理を行うクラス
@@ -18,7 +17,7 @@ import net.minecraft.src.forge.MinecraftForgeClient;
  * @author bbc_mc
  */
 public class EAI_Items {
-    // EAI_Item を登録するマップ
+    // Map of EAI_Items
     private Map<String, Item> itemlist = new HashMap();
     
     // Base class
@@ -28,6 +27,7 @@ public class EAI_Items {
     private Item Item_CTRL_IF_EnemyNearby;
     private Item Item_CTRL_IF_HPLow;
     
+    private Item Item_SEARCH_block;
     private Item Item_SEARCH_enemy;
     private Item Item_SEARCH_item;
     private Item Item_SEARCH_master;
@@ -43,7 +43,6 @@ public class EAI_Items {
     private Item Item_TASK_move2target;
     private Item Item_TASK_playSound;
     private Item Item_TASK_swim;
-    private Item Item_TASK_pickupItem;
     
     public EAI_Items(EasyAIInterface mod) {
         this.mod = mod;
@@ -53,6 +52,7 @@ public class EAI_Items {
         Item_CTRL_IF_HPLow = new EAI_Item_CTRL_IF_HPLow(mod.mod_EAI.idItem_ctrl_if_hp_low - 256);
         
         // Item:Search
+        Item_SEARCH_block = new EAI_Item_SEARCH_block(mod.mod_EAI.idItem_search_block - 256);
         Item_SEARCH_enemy = new EAI_Item_SEARCH_enemy(mod.mod_EAI.idItem_search_enemy - 256);
         Item_SEARCH_item = new EAI_Item_SEARCH_item(mod.mod_EAI.idItem_search_item - 256);
         Item_SEARCH_master = new EAI_Item_SEARCH_master(mod.mod_EAI.idItem_search_master - 256);
@@ -70,7 +70,6 @@ public class EAI_Items {
         Item_TASK_move2target = new EAI_Item_TASK_move2target(mod.mod_EAI.idItem_task_move2target - 256);
         Item_TASK_playSound = new EAI_Item_TASK_playSound(mod.mod_EAI.idItem_task_playSound - 256);
         Item_TASK_swim = new EAI_Item_TASK_swim(mod.mod_EAI.idItem_task_swim - 256);
-        Item_TASK_pickupItem = new EAI_Item_TASK_pickupItem(mod.mod_EAI.idItem_task_pickupItem - 256);
         
         // Recipe (dummy recipe)
         ModLoader.addRecipe(new ItemStack(Item_CTRL_IF_EnemyNearby, 1), new Object[] { " R ", " pR", " p ", Character.valueOf('p'), Block.planks,
@@ -100,17 +99,14 @@ public class EAI_Items {
         // add item to list
         this.addEAIItem("eai.ctrl.if.enemynearby", Item_CTRL_IF_EnemyNearby);
         this.addEAIItem("eai.ctrl.if.hplow", Item_CTRL_IF_HPLow);
+        this.addEAIItem("eai.search.block", Item_SEARCH_block);
         this.addEAIItem("eai.search.master", Item_SEARCH_master);
         this.addEAIItem("eai.search.item", Item_SEARCH_item);
         this.addEAIItem("eai.search.enemy", Item_SEARCH_enemy);
         this.addEAIItem("eai.search.mob", Item_SEARCH_mob);
-        this.addEAIItem("eai.task.attackbyrangedweapon", Item_TASK_attackByRangedWeapon);
-        this.addEAIItem("eai.task.attackoncollide", Item_TASK_attackOnCollide);
         this.addEAIItem("eai.task.eatfood", Item_TASK_eatFood);
+        this.addEAIItem("eai.task.attackoncollide", Item_TASK_attackOnCollide);
         this.addEAIItem("eai.task.move2target", Item_TASK_move2target);
-        // this.addEAIItem("eai.task.playsound", Item_TASK_playSound);
-        // this.addEAIItem("eai.task.swim", Item_TASK_swim);
-        this.addEAIItem("eai.task.pickupItem", Item_TASK_pickupItem);
         this.addEAIItem("eai.sys.return", Item_SYS_return);
         this.addEAIItem("eai.sys.start", Item_SYS_start);
         this.addEAIItem("eai.sys.wait", Item_SYS_wait);
@@ -148,6 +144,9 @@ public class EAI_Items {
     //
     private void preloadTexture(String path, Item item, String footer) {
         mod_EasyAIInterface.getInstance().mod.debugPrint(path + item.getItemName().replace("item.", "") + footer);
-        MinecraftForgeClient.preloadTexture(path + item.getItemName().replace("item.", "") + footer);
+        String texture = path + item.getItemName().replace("item.", "") + footer;
+        
+        int index = ModLoader.addOverride("/terrain.png", texture);
+        item.setIconIndex(index);
     }
 }
