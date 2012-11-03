@@ -24,7 +24,7 @@ MOD: mod_EasyAIInterface
 以下の環境が必要です。
 
   + MC 1.2.5
-  + Minecraft Forge (開発環境 3.1.1.171)
+  + Minecraft Forge (開発環境 3.4.9.171)
 
 ## 参考実装
   + 以下の条件を満たすEntity であれば、本仕組みを実装可能です。
@@ -36,12 +36,12 @@ MOD: mod_EasyAIInterface
     + YoujoMOD 用 AI として実装しています
       + src\minecraft\net\minecraft\src\YoujoAI_EasyAIInterface.java
     + Entity および AIチップ用インベントリとして利用しますが、EasyAIInterface 自体は YoujoMod に依存しません。
-    [ソースコード][github_YoujoAI]
-    [バイナリ @ 非公式フォーラム トピック][topic]
+      - [ソースコード][github_YoujoAI]
+      - [バイナリ @ 非公式フォーラム トピック][topic]
 
   + AI チップ動作検証用に、インベントリを持つ無機能 Mob を作成しました
-    [ソースコード][github_EAIMobSample]
-    [バイナリ @ 非公式フォーラム トピック][topic]
+    - [ソースコード][github_EAIMobSample]
+    - [バイナリ @ 非公式フォーラム トピック][topic]
 
 ## 使用 ID
 
