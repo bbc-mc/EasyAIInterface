@@ -1,31 +1,29 @@
-package bbc_mc.EasyAIInterface;
+package bbc_mc.EasyAIInterface.item;
 
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityTameable;
 import net.minecraft.src.EntityYoujo;
 import net.minecraft.src.IInventory;
-import net.minecraft.src.mod_EasyAIInterface;
+import bbc_mc.EasyAIInterface.EAI_Manager;
+import bbc_mc.EasyAIInterface.api.EAI_ItemBase;
 
 public class EAI_Item_SEARCH_master extends EAI_ItemBase {
     
-    protected EAI_Item_SEARCH_master(int par1) {
+    public EAI_Item_SEARCH_master(int par1) {
         super(par1);
         this.setItemName("EAI_SEARCH_master");
         this.setItemTypeBranching(true);
-        this.setMaxDamage(0);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         super.execute(manager, entity, inventory, slotnum, maxcol);
         
-        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_SEARCH_master] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
-        
         if (entity instanceof EntityTameable) {
-            manager.memory.setTarget(((EntityTameable) entity).getOwner());
+            manager.setTarget(((EntityTameable) entity).getOwner());
             return this.returnTrue();
         } else if (entity instanceof EntityYoujo) {
-            manager.memory.setTarget(((EntityYoujo) entity).targetPlayer);
+            manager.setTarget(((EntityYoujo) entity).targetPlayer);
             return this.returnTrue();
         }
         /*
@@ -34,7 +32,7 @@ public class EAI_Item_SEARCH_master extends EAI_ItemBase {
          }
          */
         else {
-            manager.memory.clearTarget();
+            manager.clearTarget();
             return this.returnFalse();
         }
     }

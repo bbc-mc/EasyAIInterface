@@ -1,10 +1,12 @@
-package bbc_mc.EasyAIInterface;
+package bbc_mc.EasyAIInterface.item;
 
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemFood;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.mod_EasyAIInterface;
+import bbc_mc.EasyAIInterface.EAI_Manager;
+import bbc_mc.EasyAIInterface.api.EAI_ItemBase;
 import bbc_mc.EasyAIInterface.util.UtilInventory;
 
 /**
@@ -14,7 +16,7 @@ import bbc_mc.EasyAIInterface.util.UtilInventory;
  */
 public class EAI_Item_TASK_eatFood extends EAI_ItemBase {
     
-    protected EAI_Item_TASK_eatFood(int par1) {
+    public EAI_Item_TASK_eatFood(int par1) {
         super(par1);
         this.setItemName("EAI_TASK_eatFood");
         this.setItemTypeBranching(false);
@@ -24,7 +26,6 @@ public class EAI_Item_TASK_eatFood extends EAI_ItemBase {
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         super.execute(manager, entity, inventory, slotnum, maxcol);
         
-        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_TASK_eatFood] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
         // 食べ物を持ってたら食べる。次へ進む
         //
         // ロジックをなるだけ壊さないように、検索は後ろから

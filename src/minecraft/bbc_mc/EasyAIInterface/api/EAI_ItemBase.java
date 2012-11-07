@@ -1,4 +1,4 @@
-package bbc_mc.EasyAIInterface;
+package bbc_mc.EasyAIInterface.api;
 
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
@@ -8,6 +8,7 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 import net.minecraft.src.mod_EasyAIInterface;
+import bbc_mc.EasyAIInterface.EAI_Manager;
 
 /**
  * AI チップのベースクラス
@@ -178,6 +179,8 @@ public class EAI_ItemBase extends Item {
      */
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         this.setReturnValue(inventory, slotnum, maxcol);
+        mod_EasyAIInterface.getInstance().mod.debugPrint("[" + this.getItemName() + "] " + this.returnTrue() + " : " + this.returnFalse() + "/"
+                + slotnum);
         // write your code HERE
         
         // return your answer

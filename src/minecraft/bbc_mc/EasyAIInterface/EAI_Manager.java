@@ -1,9 +1,13 @@
 package bbc_mc.EasyAIInterface;
 
+import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Vec3D;
 import net.minecraft.src.mod_EasyAIInterface;
+import bbc_mc.EasyAIInterface.api.EAI_ItemBase;
+import bbc_mc.EasyAIInterface.item.EAI_Item_SYS_start;
 
 /**
  * AI チップ処理クラス
@@ -30,7 +34,7 @@ public class EAI_Manager {
     private boolean flg_init;
     
     public EasyAIInterface mod;
-    public EAI_Memory memory;
+    private EAI_Memory memory;
     private int count = 0;
     
     public EAI_Manager(EasyAIInterface mod) {
@@ -119,4 +123,40 @@ public class EAI_Manager {
         }
         return -1;
     }
+    
+    // =====================================================
+    // Target Helper Function
+    //
+    public Entity getTargetEntity() {
+        return this.memory.getTargetEntity();
+    }
+    
+    public void setTarget(Entity targetEntity) {
+        this.memory.setTarget(targetEntity);
+    }
+    
+    public Vec3D getTargetPos() {
+        return this.memory.getTargetPos();
+    }
+    
+    public void setTarget(double posX, double posY, double posZ) {
+        this.memory.setTarget(posX, posY, posZ);
+    }
+    
+    public void setTarget(Vec3D pos) {
+        this.memory.setTarget(pos.xCoord, pos.yCoord, pos.zCoord);
+    }
+    
+    public void clearTarget() {
+        this.memory.clearTarget();
+    }
+    
+    public boolean hasTarget() {
+        return this.memory.hasTarget();
+    }
+    
+    public boolean isEntity() {
+        return this.memory.isEntity();
+    }
+    
 }

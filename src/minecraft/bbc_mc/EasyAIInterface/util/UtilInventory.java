@@ -17,6 +17,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 
 /**
@@ -164,8 +165,11 @@ public class UtilInventory {
         }
         if (Block.chest.blockID == world.getBlockId(x, y, z)) {
             list.add(pos);
-        } else if ((IInventory) world.getBlockTileEntity(x, y, z) != null) {
-            list.add(pos);
+        } else {
+            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            if (tile instanceof IInventory) {
+                list.add(pos);
+            }
         }
         ret += search(list_search, list, baseEntity, distance, x + 1, y, z, world);
         ret += search(list_search, list, baseEntity, distance, x - 1, y, z, world);
