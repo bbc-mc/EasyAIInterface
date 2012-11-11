@@ -8,6 +8,8 @@ package bbc_mc.EasyAIInterface.util;
  * @date 2012/07/26 2.0_1.2.5
  * @date 2012/08/22 3.0_1.3.2
  * @date 2012/10/16 3.0_1.2.5
+ * @date 2012/10/28 4.0
+ * @date 2012/11/08 5.0 1.4.2 add setWorld, and add init function
  */
 
 import net.minecraft.src.Entity;
@@ -29,7 +31,7 @@ public class UtilPosition {
     public int iMeta;
     
     public String getVersion() {
-        return "3.0_1.2.5";
+        return "5.0";
     }
     
     public UtilPosition(int x, int y, int z) {
@@ -43,16 +45,32 @@ public class UtilPosition {
         this.iMeta = iMeta;
     }
     
-    public UtilPosition(Entity entity) {
-        setPosition(entity.posX, entity.posY, entity.posZ);
-        this.iMeta = 0;
-        world = ModLoader.getMinecraftInstance().theWorld;
+    public UtilPosition(int x, int y, int z, World world) {
+        this(x, y, z);
+        this.world = world;
     }
     
     public UtilPosition(double dx, double dy, double dz) {
         setPosition(dx, dy, dz);
         iMeta = 0;
         world = ModLoader.getMinecraftInstance().theWorld;
+    }
+    
+    public UtilPosition(double dx, double dy, double dz, World world) {
+        this(dx, dy, dz);
+        this.world = world;
+    }
+    
+    public UtilPosition(Entity entity) {
+        this(entity.posX, entity.posY, entity.posZ, entity.worldObj);
+    }
+    
+    public UtilPosition(Vec3D vec) {
+        this(vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+    
+    public void setWorld(World world) {
+        this.world = world;
     }
     
     public int getBlockId(World par1World) {
@@ -176,6 +194,7 @@ public class UtilPosition {
     }
     
     public Vec3D searchNearestTargetBlock(World world, int targetBlockID, int rangeX, int rangeY, int rangeZ) {
+        boolean initialized = false;
         Vec3D targetPos = Vec3D.createVectorHelper(0, 0, 0);
         double tmpX, tmpY, tmpZ;
         for (int i = -rangeX; i < rangeX; i++) {
@@ -186,8 +205,9 @@ public class UtilPosition {
                     tmpZ = this.zCoord + k;
                     if (targetBlockID == world.getBlockId((int) Math.round(tmpX), (int) Math.round(tmpY), (int) Math.round(tmpZ))) {
                         double distance2Block = this.distanceTo(tmpX, tmpY, tmpZ);
-                        if (distance2Block < this.distanceTo(targetPos)) {
-                            targetPos.createVectorHelper((int) Math.round(tmpX), (int) Math.round(tmpY), (int) Math.round(tmpZ));
+                        if (!initialized || distance2Block < this.distanceTo(targetPos)) {
+                            initialized = true;
+                            targetPos = Vec3D.createVectorHelper((int) Math.round(tmpX), (int) Math.round(tmpY), (int) Math.round(tmpZ));
                         }
                     }
                 }

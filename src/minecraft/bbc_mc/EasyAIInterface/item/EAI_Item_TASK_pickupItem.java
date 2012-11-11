@@ -35,13 +35,7 @@ public class EAI_Item_TASK_pickupItem extends EAI_ItemBase {
             EntityItem targetItem = (EntityItem) target;
             entity.getLookHelper().setLookPositionWithEntity(targetItem, 30F, 30F);
             double distance = entity.getDistanceToEntity(targetItem);
-            if (distance > 2.0D) {
-                // 十分に接近していないなら、接近する
-                float speed = entity.getAIMoveSpeed();
-                speed = (speed == 0 ? 0.3F : speed);
-                entity.getNavigator().tryMoveToXYZ(targetItem.posX, targetItem.posY, targetItem.posZ, speed);
-                return this.returnFalse();
-            } else {
+            if (distance < 2.0D) {
                 // 十分に接近している場合
                 // // 接触しているかどうか判定する
                 List list = entity.worldObj.getEntitiesWithinAABB(EntityItem.class, entity.boundingBox.expand(0.5D, 0.5D, 0.5D));
@@ -53,13 +47,15 @@ public class EAI_Item_TASK_pickupItem extends EAI_ItemBase {
                         // Sound
                         entity.worldObj.playSoundAtEntity(targetItem, "random.pop", 0.2F,
                                 ((entity.getRNG().nextFloat() - entity.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                        return this.returnTrue();
                     }
-                    
-                    return this.returnTrue();
-                } else {
-                    return this.returnFalse();
                 }
             }
+            // 十分に接近していないなら、接近する
+            float speed = entity.getAIMoveSpeed();
+            speed = (speed == 0 ? 0.3F : speed);
+            entity.getNavigator().tryMoveToXYZ(targetItem.posX, targetItem.posY, targetItem.posZ, speed);
+            return this.returnFalse();
         }
     }
 }

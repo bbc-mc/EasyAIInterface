@@ -46,6 +46,9 @@ public class EAI_Localize {
         this.addLocalization("item.EAI_TASK_swim.name", "TaskTip: swim", "実行チップ: 泳ぐ");
         this.addLocalization("item.EAI_TASK_useItemToTarget.name", "TaskTip: use Item to Target", "実行チップ: 指定されたアイテムを Target へ使用する");
         
+        // Work
+        this.addLocalization("item.EAI_WORK_cutTree.name", "WorkTip: cut Tree", "仕事チップ: 木を伐る");
+        
     }
     
     private void addLocalization(String target, String str_en_US, String str_ja_JP) {

@@ -28,7 +28,7 @@ public class EasyAIInterface {
     }
     
     public String getVersion() {
-        return "1.2.5-1.0.0";
+        return "1.2.5-alpha2";
     }
     
     public void load() {
@@ -60,8 +60,8 @@ public class EasyAIInterface {
         return new EAI_Manager(this);
     }
     
-    public void debugPrint(String str) {
-        if (mod_EAI.debug_mode) {
+    public static void debugPrint(String str) {
+        if (mod_EasyAIInterface.debug_mode) {
             System.out.println(str);
         }
     }

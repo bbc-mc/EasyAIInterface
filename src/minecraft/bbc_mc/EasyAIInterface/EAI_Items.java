@@ -31,6 +31,7 @@ import bbc_mc.EasyAIInterface.item.EAI_Item_TASK_pickupItem;
 import bbc_mc.EasyAIInterface.item.EAI_Item_TASK_playSound;
 import bbc_mc.EasyAIInterface.item.EAI_Item_TASK_swim;
 import bbc_mc.EasyAIInterface.item.EAI_Item_TASK_useItemToTarget;
+import bbc_mc.EasyAIInterface.item.EAI_Item_WORK_cutTree;
 
 /**
  * MOD が Load された時の Item に関する登録処理を行うクラス
@@ -74,6 +75,8 @@ public class EAI_Items {
     private Item Item_TASK_swim;
     private Item Item_TASK_useItemToTarget;
     
+    private Item Item_WORK_cutTree;
+    
     public EAI_Items(EasyAIInterface mod) {
         this.mod = mod;
         
@@ -107,6 +110,9 @@ public class EAI_Items {
         Item_TASK_playSound = new EAI_Item_TASK_playSound(mod.mod_EAI.idItem_task_playSound - 256);
         Item_TASK_swim = new EAI_Item_TASK_swim(mod.mod_EAI.idItem_task_swim - 256);
         Item_TASK_useItemToTarget = new EAI_Item_TASK_useItemToTarget(mod.mod_EAI.idItem_task_useItemToTarget - 256);
+        
+        // Item:Work
+        Item_WORK_cutTree = new EAI_Item_WORK_cutTree(mod.mod_EAI.idItem_work_cutTree - 256);
         
         // Recipe (dummy recipe)
         ModLoader.addRecipe(new ItemStack(Item_CTRL_IF_EnemyNearby, 1), new Object[] { " R ", " pR", " p ", Character.valueOf('p'), Block.planks,
@@ -157,6 +163,8 @@ public class EAI_Items {
         this.addEAIItem("eai.task.playSound", Item_TASK_playSound);
         this.addEAIItem("eai.task.swim", Item_TASK_swim);
         this.addEAIItem("eai.task.useItemToTarget", Item_TASK_useItemToTarget);
+        
+        this.addEAIItem("eai.work.cutTree", Item_WORK_cutTree);
         
         // Load Item texture
         for (Item item : this.itemlist.values()) {

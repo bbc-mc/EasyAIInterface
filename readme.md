@@ -4,9 +4,9 @@ MOD: mod_EasyAIInterface
 ----
     MOD name     : mod_EasyAIInterface
     Author       : bbc_mc (bbc-mc on github)
-    publish date : 2012/10/19 alpha
     status       : alpha + still develop
-
+    publish date : 2012/10/19 alpha
+                   2012/11/11 alpha2
 ----
 ** 現在開発中のため、以下の内容には開発中の情報が含まれ、不正確な可能性があります。**
 
@@ -32,26 +32,30 @@ MOD: mod_EasyAIInterface
     + AI チップを配置できる inventory を持つ
     + 定期的に EAI_Manager の実行関数をキックできる
 
+### 参考実装 1 : YoujoAI_EasyAIInterface
   + [YoujoMOD] 1.2.1 を利用した実装を作成しました
     + YoujoMOD 用 AI として実装しています
       + src\minecraft\net\minecraft\src\YoujoAI_EasyAIInterface.java
     + Entity および AIチップ用インベントリとして利用しますが、EasyAIInterface 自体は YoujoMod に依存しません。
-      - [ソースコード][github_YoujoAI]
-      - [バイナリ @ 非公式フォーラム トピック][topic]
+      + [ソースコード][github_YoujoAI]
+      + [バイナリ @ 非公式フォーラム トピック][topic]
 
+### 参考実装 2 : mod_EAIMobSample
   + AI チップ動作検証用に、インベントリを持つ無機能 Mob を作成しました
-    - [ソースコード][github_EAIMobSample]
-    - [バイナリ @ 非公式フォーラム トピック][topic]
+      + [ソースコード][github_EAIMobSample]
+      + [バイナリ @ 非公式フォーラム トピック][topic]
 
 ## 使用 ID
 
 開発に伴う AI チップの追加で増加する可能性大です。
+Config から変更可能です
 
 + アイテムID
-  + 29001 - 29004
-  + 29101 - 29102
-  + 29201 - 29206
-  + 29301 - 29303
+  + 29001 - 29007
+  + 29101 - 29104
+  + 29201 - 29208
+  + 29301 - 29304
+  + 29401
 + ブロックID
   + なし
 
@@ -91,6 +95,8 @@ MOD: mod_EasyAIInterface
   2012/10/20
         EasyAIInterface αバージョン公開
         EAI_SampleMob と YoujoAI を別リポジトリへ移動しました
+  2012/11/11
+        EasyAIIntarface α2バージョンを公開
 
 ----------
 ####Copyright &copy; 2012 bbc_mc (bbc-mc on github)

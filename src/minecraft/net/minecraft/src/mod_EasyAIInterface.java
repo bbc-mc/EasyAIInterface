@@ -12,7 +12,7 @@ public class mod_EasyAIInterface extends BaseMod {
     // Settings
     //
     @MLProp
-    public static boolean debug_mode = true;
+    public static boolean debug_mode = false;
     @MLProp
     public static int loopWait = 4;
     
@@ -69,6 +69,10 @@ public class mod_EasyAIInterface extends BaseMod {
     public static int idItem_sys_start = 29303;
     @MLProp
     public static int idItem_sys_wait = 29304;
+    
+    // Item:Work
+    @MLProp
+    public static int idItem_work_cutTree = 29401;
     
     public final EasyAIInterface mod;
     
