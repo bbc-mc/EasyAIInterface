@@ -1,28 +1,29 @@
-package bbc_mc.EasyAIInterface;
+package bbc_mc.EasyAIInterface.item;
 
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
-import net.minecraft.src.mod_EasyAIInterface;
+import bbc_mc.EasyAIInterface.EAI_Manager;
+import bbc_mc.EasyAIInterface.api.EAI_ItemBase;
 
-// TODO: this is dummy code.
+/**
+ * AI チップ: 指定されたサウンドを再生する
+ * 
+ * TODO: 指定方法の実装 TODO: 音再生の実装
+ * 
+ * @author bbc_mc
+ */
 public class EAI_Item_TASK_playSound extends EAI_ItemBase {
     
-    protected EAI_Item_TASK_playSound(int par1) {
+    public EAI_Item_TASK_playSound(int par1) {
         super(par1);
         this.setItemName("EAI_TASK_playSound");
         this.setItemTypeBranching(false);
-        this.setMaxDamage(0);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         super.execute(manager, entity, inventory, slotnum, maxcol);
-        
-        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_TASK_playSound] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
-        
-        // get 0-7 value from Damage
-        int num = inventory.getStackInSlot(slotnum).getItemDamage() / 8;
-        
+        // TODO: implement
         return this.returnTrue();
     }
 }

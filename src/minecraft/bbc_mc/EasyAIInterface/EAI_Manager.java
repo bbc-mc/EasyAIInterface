@@ -1,9 +1,13 @@
 package bbc_mc.EasyAIInterface;
 
+import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Vec3D;
 import net.minecraft.src.mod_EasyAIInterface;
+import bbc_mc.EasyAIInterface.api.EAI_ItemBase;
+import bbc_mc.EasyAIInterface.item.EAI_Item_SYS_start;
 
 /**
  * AI チップ処理クラス
@@ -13,17 +17,24 @@ import net.minecraft.src.mod_EasyAIInterface;
  * @author bbc_mc
  */
 public class EAI_Manager {
-    
+    // 処理を開始するスロット
     public int slot_start;
     
+    // 本EAI_Manager が保持される Entity. AI 処理の結果として動くEntity.
     private EntityLiving parentEntity;
-    private IInventory inventory;
+    // 所有アイテムのインベントリ。アイテムの利用等に使用する
+    private IInventory itemInventory;
+    // AIチップ配置用インベントリ
+    private IInventory logicInventory;
+    
+    // 処理対象スロット
     private int currentSlot;
+    // AI チップ配置用インベントリのスロット横幅
     private int maxcol;
     private boolean flg_init;
     
     public EasyAIInterface mod;
-    public EAI_Memory memory;
+    private EAI_Memory memory;
     private int count = 0;
     
     public EAI_Manager(EasyAIInterface mod) {
@@ -36,8 +47,13 @@ public class EAI_Manager {
     }
     
     public void init(EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
+        this.init(entity, inventory, inventory, slotnum, maxcol);
+    }
+    
+    public void init(EntityLiving entity, IInventory itemInventory, IInventory logicInventory, int slotnum, int maxcol) {
         this.parentEntity = entity;
-        this.inventory = inventory;
+        this.itemInventory = itemInventory;
+        this.logicInventory = logicInventory;
         this.currentSlot = slotnum;
         this.maxcol = maxcol;
         this.flg_init = true;
@@ -48,7 +64,7 @@ public class EAI_Manager {
     }
     
     public void setCurrentSlot(int slot) {
-        if (0 <= slot && slot < this.inventory.getSizeInventory()) {
+        if (0 <= slot && slot < this.logicInventory.getSizeInventory()) {
             this.currentSlot = slot;
         }
     }
@@ -65,13 +81,13 @@ public class EAI_Manager {
             count = this.mod.mod_EAI.loopWait;
         }
         
-        if (this.currentSlot < 0 || this.inventory.getSizeInventory() < this.currentSlot) {
+        if (this.currentSlot < 0 || this.logicInventory.getSizeInventory() < this.currentSlot) {
             this.mod.debugPrint("[EAI_Manager] slotnum is out of range. abort. : " + this.currentSlot);
             return false; // abort
         }
         
         //
-        ItemStack currentSlotItem = inventory.getStackInSlot(this.currentSlot);
+        ItemStack currentSlotItem = this.logicInventory.getStackInSlot(this.currentSlot);
         
         // EAI_Item かどうかを確認。
         if (currentSlotItem == null || !this.mod.items.isEAIItem(currentSlotItem)) {
@@ -81,14 +97,14 @@ public class EAI_Manager {
         
         //
         mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_Manager] execute");
-        int ret = ((EAI_ItemBase) currentSlotItem.getItem()).execute(this, this.parentEntity, this.inventory, this.currentSlot, this.maxcol);
+        int ret = ((EAI_ItemBase) currentSlotItem.getItem()).execute(this, this.parentEntity, this.logicInventory, this.currentSlot, this.maxcol);
         
         // 終了前処理
         if (ret == -1) {
             this.mod.debugPrint("[EAI_Manager] returned : " + ret + " " + ((EAI_ItemBase) currentSlotItem.getItem()).getItemName());
             this.currentSlot = this.slot_start;
             return true; // manager が認識している start チップへ戻る
-        } else if (ret > this.inventory.getSizeInventory()) {
+        } else if (ret > this.logicInventory.getSizeInventory()) {
             this.mod.debugPrint("[EAI_Manager] return to 0. reach right end.");
             this.currentSlot = this.slot_start;
             return true; // manager が認識している start チップへ戻る
@@ -107,4 +123,40 @@ public class EAI_Manager {
         }
         return -1;
     }
+    
+    // =====================================================
+    // Target Helper Function
+    //
+    public Entity getTargetEntity() {
+        return this.memory.getTargetEntity();
+    }
+    
+    public void setTarget(Entity targetEntity) {
+        this.memory.setTarget(targetEntity);
+    }
+    
+    public Vec3D getTargetPos() {
+        return this.memory.getTargetPos();
+    }
+    
+    public void setTarget(double posX, double posY, double posZ) {
+        this.memory.setTarget(posX, posY, posZ);
+    }
+    
+    public void setTarget(Vec3D pos) {
+        this.memory.setTarget(pos.xCoord, pos.yCoord, pos.zCoord);
+    }
+    
+    public void clearTarget() {
+        this.memory.clearTarget();
+    }
+    
+    public boolean hasTarget() {
+        return this.memory.hasTarget();
+    }
+    
+    public boolean isEntity() {
+        return this.memory.isEntity();
+    }
+    
 }

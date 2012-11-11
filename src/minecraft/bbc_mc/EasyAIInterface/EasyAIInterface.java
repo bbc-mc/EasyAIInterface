@@ -7,11 +7,20 @@ import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
 import net.minecraft.src.mod_EasyAIInterface;
 
+/**
+ * EasyAIInterface のメインクラス
+ * 
+ * @author bbc_mc
+ */
 public class EasyAIInterface {
+    // mod_ クラスインスタンスへの参照を保持
     public mod_EasyAIInterface mod_EAI;
+    // EAI_Items 管理クラスへの参照
     public EAI_Items items;
+    // EAI_Localize クラスへの参照を保持
     public EAI_Localize localize;
     
+    // YoujoMOD との連携用フラグ
     public boolean isLoaded_MOD_Youjo = false;
     
     public EasyAIInterface(mod_EasyAIInterface mod) {
@@ -19,7 +28,7 @@ public class EasyAIInterface {
     }
     
     public String getVersion() {
-        return "1.2.5-1.0.0";
+        return "1.2.5-alpha2";
     }
     
     public void load() {
@@ -40,7 +49,6 @@ public class EasyAIInterface {
     }
     
     public void keyboardEvent(KeyBinding keybinding) {
-        
     }
     
     public void modsLoaded() {
@@ -52,8 +60,8 @@ public class EasyAIInterface {
         return new EAI_Manager(this);
     }
     
-    public void debugPrint(String str) {
-        if (mod_EAI.debug_mode) {
+    public static void debugPrint(String str) {
+        if (mod_EasyAIInterface.debug_mode) {
             System.out.println(str);
         }
     }

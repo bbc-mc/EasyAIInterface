@@ -1,4 +1,4 @@
-package bbc_mc.EasyAIInterface;
+package bbc_mc.EasyAIInterface.item;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -10,23 +10,21 @@ import net.minecraft.src.EntityMob;
 import net.minecraft.src.EntityZombie;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.mod_EasyAIInterface;
+import bbc_mc.EasyAIInterface.EAI_Manager;
+import bbc_mc.EasyAIInterface.api.EAI_ItemBase;
 import bbc_mc.EasyAIInterface.util.SorterDistanceToEntity;
 
 public class EAI_Item_SEARCH_mob extends EAI_ItemBase {
     
-    protected EAI_Item_SEARCH_mob(int par1) {
+    public EAI_Item_SEARCH_mob(int par1) {
         super(par1);
         this.setItemName("EAI_SEARCH_mob");
         this.setItemTypeBranching(true);
-        this.setMaxDamage(0);
     }
     
     @Override
     public int execute(EAI_Manager manager, EntityLiving entity, IInventory inventory, int slotnum, int maxcol) {
         super.execute(manager, entity, inventory, slotnum, maxcol);
-        
-        mod_EasyAIInterface.getInstance().mod.debugPrint("[EAI_SEARCH_mob] " + this.returnTrue() + " : " + this.returnFalse() + "[" + slotnum);
         
         double range = 20D;// search range
         List list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(range, 4D, range));
@@ -37,7 +35,7 @@ public class EAI_Item_SEARCH_mob extends EAI_ItemBase {
             while (iterator.hasNext()) {
                 Object obj = iterator.next();
                 if (this.isTargetMobClassFromDamage(((Entity) obj), currentItemStack.getItemDamage())) {
-                    manager.memory.target.setTarget((EntityMob) obj);
+                    manager.setTarget((EntityMob) obj);
                     return this.returnTrue();
                 }
             }

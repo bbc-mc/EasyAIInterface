@@ -17,8 +17,14 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 
+/**
+ * インベントリ操作用の Utility クラス
+ * 
+ * @author bbc_mc
+ */
 public class UtilInventory {
     
     /**
@@ -88,7 +94,7 @@ public class UtilInventory {
     }
     
     //
-    // copied from "mcp62_1.2.5 ItemStack.java" for backward compatibility
+    // copied from "mcp62_1.2.5 ItemStack.java" for backward compatibility, (for in mc 1.3.2)
     //
     private static boolean func_46154_a(ItemStack par0ItemStack, ItemStack par1ItemStack) {
         if (par0ItemStack == null && par1ItemStack == null) {
@@ -159,8 +165,11 @@ public class UtilInventory {
         }
         if (Block.chest.blockID == world.getBlockId(x, y, z)) {
             list.add(pos);
-        } else if ((IInventory) world.getBlockTileEntity(x, y, z) != null) {
-            list.add(pos);
+        } else {
+            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            if (tile instanceof IInventory) {
+                list.add(pos);
+            }
         }
         ret += search(list_search, list, baseEntity, distance, x + 1, y, z, world);
         ret += search(list_search, list, baseEntity, distance, x - 1, y, z, world);
