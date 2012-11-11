@@ -47,8 +47,8 @@ MOD: mod_EasyAIInterface
 
 ## 使用 ID
 
-開発に伴う AI チップの追加で増加する可能性大です。
-Config から変更可能です
+ - 開発に伴う AI チップの追加で増加する可能性大です。
+ - Config から変更可能です
 
 + アイテムID
   + 29001 - 29007
@@ -97,6 +97,7 @@ Config から変更可能です
         EAI_SampleMob と YoujoAI を別リポジトリへ移動しました
   2012/11/11
         EasyAIIntarface α2バージョンを公開
+        EasyAIInterface α2バージョン の MC1.4.2 実装を公開
 
 ----------
 ####Copyright &copy; 2012 bbc_mc (bbc-mc on github)
@@ -107,6 +108,7 @@ Config から変更可能です
 [YoujoMOD]: http://forum.minecraftuser.jp/viewtopic.php?f=13&t=2816#p20049
 [topic]: http://forum.minecraftuser.jp/viewtopic.php?f=13&t=6134&p=49598#p49598
 [github_EAI]: https://github.com/bbc-mc/EasyAIInterface
+[github_EAIMP]: https://github.com/bbc-mc/EasyAIInterfaceMP
 [github_EAIMobSample]: https://github.com/bbc-mc/EAIMobSample
 [github_YoujoAI]: https://github.com/bbc-mc/YoujoAI_EasyAIInterface
 
